@@ -1,2 +1,3 @@
-# appatite
-A shiny way to view your projects
+# Welcome to Appatite
+
+This is the project for the Appatite website.

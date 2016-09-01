@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+- 2.3.1
+deploy:
+  provider: heroku
+  api_key:
+    secure: hcUFL4hzJBgn43DHMDD+zHM+1QtlYS1ylTCh94NQPM648z9bEJBUes7tZ8yt/5MyNzxjiGDTd7qFFZrMGYCzntWuPvVOnkMvxPoX76lZFURwUb+1yxuyrGbH/TkTTmoFREPpfPqi2I1lA582aeHP1inInMi1jM6qDO9O/mcxIuoEcoNFVlniuvWqvHpmV9Ni7+50kYAQfNmNogBSj2Wak9c48ZFEOKsDRbUBKjNhqQ99277bt9gHnZaPRgXGkVJk05WOmSwmMQWFKwpKtaSM1P5wvZO71Y6Slq0pK3eaCE9Oqsx6+HE17c4s3h9SdZh/jr9t7tk9ILpspjD3FbI9Pp6dGFLJ6qQXFVBN0dQgUCyysBd969DHM+OJbF1csid8eUwNY4yICgaYsT+AZQWxycDpMRDdZS6jyXaz8uBCjgbE8zSP/cNE9MnSHl4/7PJbyW8xRr6ObNnJkL+n4is4N/oH4v4o85am/qWOqt7OvNw2KpXK55mOkhX/MkD1XYHnAH8Dyr0qgKk5eZ4xKFKOa6ZIxoMsx4kN2L9U0/pckI3TTVmfC4Vp5c2itiZD2OhagDxuwwOpsPe/Hkpqb+yXTK2n1vjW2VrYcYTAlTsXlRPik33tnX9ym9IF6c3PmjqdyMFB1t3bCv3M/C4ABPBajjcF0fHLxxwLi3dJlu7O1+o=
+  app: appatite
+  on:
+    repo: ephracis/appatite
