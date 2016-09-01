@@ -8,3 +8,9 @@ deploy:
   app: appatite
   on:
     repo: ephracis/appatite
+branches:
+  only:
+  - master
+notifications:
+  slack:
+    secure: iqBaxHZrhwsDWyaM/n9jMlhBhobqdwWlLn5F9Q1EXzmwIrYVWlGNU1VVHea9JCurQdpOeGVsbshfinP0lK6Pd/vwpGXd4e2CLJBaNPGgQh/SCBCoOjjPMotEyIdedVSQVx+o/lH3GzHN6Bf6KbsqsbrDXm0fyqHYz5+PTM+jsYGAs6GcnekUPPGk/qZWtqHkjvvL7AFgwd62F+5x+lBLXbTmVqhikIpJjiQZz0EatU5+8MN/OIBiBkZEcuiA+440520MgWIxvigpYmFNzH1wP2WVBUO+wRIgqswSx/aFnhwMSgo0wJOyqpb0IVGrt+dkLDYrfsUm5oxRyOyZdRRMK/BkgQvzliOHr14djL7NZWahU/xF6PukxPYD18u/65Nn6BL4jmq2BAmvORQdBEDlyDkrtsb8fjB4aA3L2zg4G3az83Ye5tNMdhmuVVk05FqzkGzHRQI6KthHYjakMklYiBmes7hDuw6SH51Yqo/pEJW4A7TWmFPv2cL39amGK6qsYjA9Sk6T61XChlI2DucYbSAAY7vSzr5D98zC9aa+M81yWlrozBmM78G0mJs6hJdjlZ8zZYBXHl94tNVHC3aUIgIMxWg77NCTNc2qj+RxQ1Nt5VgQi3khTtoVS9c4J+EBwjHlTnZ0CbXxxRHue63gWNJ0LFbQwe27o3ziXErvjpA=
