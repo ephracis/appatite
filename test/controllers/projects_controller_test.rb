@@ -17,10 +17,32 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create project' do
     assert_difference('Project.count') do
-      post projects_url, params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: @project.name } }
+      post projects_url,
+           params: {
+             project: {
+               build_state: @project.build_state,
+               coverage: @project.coverage,
+               name: @project.name
+             }
+           }
     end
 
     assert_redirected_to project_url(Project.last)
+  end
+
+  test 'should not create project without name' do
+    assert_no_difference('Project.count') do
+      post projects_url,
+           params: {
+             project: {
+               build_state: @project.build_state,
+               coverage: @project.coverage
+             }
+           }
+    end
+
+    assert_response :success
+    assert_select 'li', "Name can't be blank"
   end
 
   test 'should show project' do
@@ -36,6 +58,12 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   test 'should update project' do
     patch project_url(@project), params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: @project.name } }
     assert_redirected_to project_url(@project)
+  end
+
+  test 'should not remove name from project' do
+    patch project_url(@project), params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: nil } }
+    assert_response :success
+    assert_select 'li', "Name can't be blank"
   end
 
   test 'should destroy project' do

@@ -36,11 +36,11 @@
               %li= link_to 'Login', new_user_session_path
 
     - if notice
-      .alert.alert-success
+      .alert.alert-global.alert-success
         = notice
 
     - if alert
-      .alert.alert-danger
+      .alert.alert-global.alert-danger
         = alert
 
     = content_for?(:content) ? yield(:content) : yield

@@ -1,0 +1,31 @@
+.text-center
+  %h1 Projects
+
+- if Project.exists?
+  %table.table.table-striped
+    %thead 
+      %tr
+        %th Name
+        %th Coverage
+        %th Build state
+        %th
+    %tbody
+      - Project.all.each do |project|
+        %tr
+          %td= link_to project.name, project
+          %td= project.coverage
+          %td= project.build_state
+          %td.text-right
+            = link_to edit_project_path(project), class: 'btn btn-xs btn-default' do
+              %span.fa.fa-pencil
+            = link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' do
+              %span.fa.fa-trash
+
+- else
+  .text-center.alert-container
+    %span.alert.alert-info
+      No projects found
+
+= link_to new_project_path, class: 'btn btn-default' do
+  %span.fa.fa-plus
+  New Project
