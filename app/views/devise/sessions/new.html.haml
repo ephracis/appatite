@@ -1,0 +1,8 @@
+.text-center
+  %h1 Sign in using...
+  = link_to user_github_omniauth_authorize_path, class: 'btn btn-primary btn-lg btn-auth' do
+    %span.fa.fa-github
+    Github
+  = link_to user_gitlab_omniauth_authorize_path, class: 'btn btn-primary btn-lg btn-auth' do
+    %span.fa.fa-gitlab
+    Gitlab

@@ -1,18 +1,16 @@
 default: &default
   pool: 5
   timeout: 5000
+  adapter: postgresql
 
 development:
   <<: *default
-  adapter: sqlite3
-  database: db/development.sqlite3
+  database: appatite_development
 
 test:
   <<: *default
-  adapter: sqlite3
-  database: db/test.sqlite3
+  database: appatite_test
 
 production:
   <<: *default
-  adapter: postgresql
   database: appatite_production
