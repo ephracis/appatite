@@ -110,5 +110,13 @@ module Users
       assert_response :success
       assert_select 'div', 'Successfully authenticated from Gitlab account.'
     end
+
+    test 'should redirect to login on failure' do
+      OmniAuth.config.mock_auth[:gitlab] = :invalid_credentials
+      get '/users/auth/gitlab'
+      OmniAuth.config.logger = Logger.new('/dev/null')
+      follow_redirect!
+      assert_redirected_to new_user_session_path
+    end
   end
 end

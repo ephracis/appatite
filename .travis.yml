@@ -16,6 +16,7 @@ deploy:
   app: appatite
   on:
     repo: ephracis/appatite
+  run: 'bin/rake db:migrate'
 branches:
   only:
   - master
