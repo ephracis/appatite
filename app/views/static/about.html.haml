@@ -1,2 +1,22 @@
-.text-center
-  This is the about page
+.container
+  .text-center
+    %h1 Users
+
+  %table.table.table-striped
+    %thead 
+      %tr
+        %th Name
+        %th Email
+        %th Account Links
+        %th
+    %tbody
+      - User.all.each do |user|
+        %tr
+          %td= link_to user.name, '#'
+          %td= user.email
+          %td= user.account_links.count
+          %td.text-right
+            = link_to '#', class: 'btn btn-xs btn-default' do
+              %span.fa.fa-pencil
+            = link_to '#', method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' do
+              %span.fa.fa-trash

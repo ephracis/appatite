@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  coverage: 
-  build_state: MyString
+project1:
+  name: Project1
+  coverage: 1
+  build_state: success
 
-two:
-  name: MyString
-  coverage: 
-  build_state: MyString
+project2:
+  name: Project2
+  coverage: 95
+  build_state: failed

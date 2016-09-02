@@ -1,0 +1,23 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'tmp/**/*'
+    - 'test/fixtures/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'config.ru'
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: true
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
