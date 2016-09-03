@@ -20,6 +20,8 @@
           %ul.nav.navbar-nav
             %li= link_to 'Projects', projects_path
             %li= link_to 'About', '/about'
+            - if admin?
+              %li= link_to 'Admin', admin_overview_path
 
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
@@ -28,12 +30,24 @@
                   = current_user.name
                   %span.caret
                 %ul.dropdown-menu
-                  %li= link_to 'Profile', '#'
-                  %li= link_to 'Settings', '#'
+                  %li
+                    = link_to user_path(current_user) do
+                      %span.fa.fa-user
+                      Profile
+                  %li
+                    = link_to edit_user_path(current_user) do
+                      %span.fa.fa-cog
+                      Settings
                   %li.divider{ role: 'separator' }
-                  %li= link_to 'Logout', destroy_user_session_path, method: :delete
+                  %li
+                    = link_to destroy_user_session_path, method: :delete do
+                      %span.fa.fa-sign-out
+                      Logout
             - else
-              %li= link_to 'Login', new_user_session_path
+              %li
+                = link_to new_user_session_path do
+                  %span.fa.fa-sign-in
+                  Login
 
     - if notice
       .alert.alert-global.alert-success
