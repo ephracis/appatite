@@ -1,0 +1,9 @@
+- content_for :content do
+  .container{ ng: { controller: 'AdminCtrl' } }
+    %ul.nav.nav-pills
+      - { overview: 'Overview', users: 'Users', projects: 'Projects', settings: 'Settings' }.each do |tab, label|
+        = content_tag :li, class: (action_name.to_sym == tab ? 'active' : ''), role: :presentation do
+          = link_to label, "/admin/#{tab}"
+    = yield
+
+= render template: 'layouts/application'

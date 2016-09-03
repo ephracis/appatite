@@ -70,7 +70,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
 
   # Use AngularJS for app logic
-  gem 'rails-assets-angular'
+  gem 'rails-assets-angular2'
 
   # Use FontAwesome for icons
   gem 'rails-assets-fontawesome'

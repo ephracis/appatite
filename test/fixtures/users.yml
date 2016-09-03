@@ -10,3 +10,7 @@ alice:
 bob:
   email: bob@mail.com
   name: Bobby Pinberg
+admin:
+  email: admin@mail.com
+  name: Master Admin
+  is_admin: true
