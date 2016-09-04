@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   def self.new_with_session(params, session)
-    super.tap do |user|
+    super.tap do |_user|
     end
   end
 
