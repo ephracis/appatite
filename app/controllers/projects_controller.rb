@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = current_user.projects
+    @projects = current_user.projects.order(:id)
     redirect_to(setup_projects_path) && return unless @projects.any?
   end
 
@@ -64,6 +64,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
+        ProjectChannel.broadcast_to @project.user, @project
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else
@@ -99,6 +100,6 @@ class ProjectsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
-    params.require(:project).permit(:active, :origin, :origin_id)
+    params.require(:project).permit(:active, :origin, :origin_id, :coverage, :build_state, :name)
   end
 end
