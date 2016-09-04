@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   end
 
   # resources
-  resources :projects
+  resources :projects do
+    get 'setup', on: :collection
+  end
 
   # static
   get '/about', to: 'static#about'

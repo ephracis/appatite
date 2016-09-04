@@ -42,4 +42,32 @@ class AccountLinkTest < ActiveSupport::TestCase
     )
     assert !link.save
   end
+
+  test 'should get gitlab projects' do
+    stub_request(:get, 'https://gitlab.com/api/v3/projects?access_token=mytoken')
+      .to_return(body: [{ id: 42 }, { id: 1337 }].to_json)
+    link = AccountLink.new(
+      user: users(:alice),
+      provider: 'gitlab',
+      uid: 'test',
+      token: 'mytoken'
+    )
+    assert_equal 2, link.projects.count
+    assert_equal 42, link.projects[0][:id]
+    assert_equal 1337, link.projects[1][:id]
+  end
+
+  test 'should get github projects' do
+    stub_request(:get, 'https://api.github.com/user/repos')
+      .to_return(body: [{ id: 42 }, { id: 1337 }].to_json)
+    link = AccountLink.new(
+      user: users(:alice),
+      provider: 'github',
+      uid: 'test',
+      token: 'mytoken'
+    )
+    assert_equal 2, link.projects.count
+    assert_equal 42, link.projects[0][:id]
+    assert_equal 1337, link.projects[1][:id]
+  end
 end

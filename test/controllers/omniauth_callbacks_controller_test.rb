@@ -11,6 +11,9 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
         email: 'test@mail.com',
         name: 'Test User',
         image: 'test'
+      },
+      credentials: {
+        token: 'test'
       }
     )
     OmniAuth.config.mock_auth[:gitlab] = OmniAuth::AuthHash.new(
@@ -20,6 +23,9 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
         email: 'test@mail.com',
         name: 'Test User',
         image: 'test'
+      },
+      credentials: {
+        token: 'test'
       }
     )
   end

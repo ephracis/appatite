@@ -12,6 +12,9 @@ AllCops:
 Rails:
   Enabled: true
 
+Metrics/MethodLength:
+  Max: 15
+
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*'

@@ -2,10 +2,16 @@
 
 project1:
   name: Project1
+  origin: gitlab
+  origin_id: 123
+  user: alice
   coverage: 1
   build_state: success
 
 project2:
   name: Project2
+  origin: github
+  origin_id: 123
+  user: alice
   coverage: 95
   build_state: failed

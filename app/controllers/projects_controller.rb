@@ -5,7 +5,24 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = current_user.projects
+    redirect_to(setup_projects_path) && return unless @projects.any?
+  end
+
+  # GET /projects/setup
+  def setup
+    @projects = []
+    current_user.account_links.each do |link|
+      @projects += link.projects
+    end
+    active_projects = current_user.projects.where(active: true).map do |p|
+      "#{p.origin}-#{p.origin_id}"
+    end
+    @projects.each do |project|
+      uniq_id = "#{project[:origin]}-#{project[:id]}"
+      project[:state] =
+        uniq_id.in?(active_projects) ? :active : :inactive
+    end
   end
 
   # GET /projects/1
@@ -25,7 +42,11 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(project_params)
+    @project = Project.where(project_params).first_or_initialize do |p|
+      p.user = current_user
+      p.name = 'Test project'
+    end
+    @project.active = true
 
     respond_to do |format|
       if @project.save
@@ -66,11 +87,18 @@ class ProjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    @project = Project.find(params[:id])
+    @project = if params[:origin] && params[:origin_id]
+                 Project.find_by(
+                   origin: params[:origin],
+                   origin_id: params[:origin_id]
+                 )
+               else
+                 Project.find(params[:id])
+               end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
-    params.require(:project).permit(:name, :coverage, :build_state)
+    params.require(:project).permit(:active, :origin, :origin_id)
   end
 end
