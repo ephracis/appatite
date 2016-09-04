@@ -1,31 +1,20 @@
 .text-center
   %h1 Projects
+  .lead Here is an overview of your active projects
 
-- if Project.exists?
-  %table.table.table-striped
-    %thead 
+%table.table.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Origin ID
+  %tbody
+    - @projects.each do |project|
       %tr
-        %th Name
-        %th Coverage
-        %th Build state
-        %th
-    %tbody
-      - Project.all.each do |project|
-        %tr
-          %td= link_to project.name, project
-          %td= project.coverage
-          %td= project.build_state
-          %td.text-right
-            = link_to edit_project_path(project), class: 'btn btn-xs btn-default' do
-              %span.fa.fa-pencil
-            = link_to project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' do
-              %span.fa.fa-trash
+        %td
+          = content_tag :span, '', class: "fa fa-fw fa-#{project.origin}"
+          = link_to project.name, project
+        %td
+          = project.origin_id
 
-- else
-  .text-center.alert-container
-    %span.alert.alert-info
-      No projects found
-
-= link_to new_project_path, class: 'btn btn-default' do
-  %span.fa.fa-plus
-  New Project
+.text-center
+  = link_to 'Setup Projects', setup_projects_path, class: 'btn btn-default'

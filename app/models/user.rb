@@ -3,6 +3,7 @@ class User < ApplicationRecord
   devise :trackable
 
   has_many :account_links
+  has_many :projects
 
   validates :email, uniqueness: true
 

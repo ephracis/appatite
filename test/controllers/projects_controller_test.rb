@@ -19,6 +19,23 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'index should redirect when no projects' do
+    sign_in users(:bob)
+    get projects_url
+    assert_redirected_to setup_projects_path
+  end
+
+  test 'should not get setup logged out' do
+    get setup_projects_path
+    assert_redirected_to new_user_session_path
+  end
+
+  test 'should get setup' do
+    sign_in users(:alice)
+    get setup_projects_path
+    assert_response :success
+  end
+
   test 'should not get new logged out' do
     get new_project_url
     assert_redirected_to new_user_session_path
@@ -51,6 +68,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       post projects_url,
            params: {
              project: {
+               origin: 'test',
+               origin_id: 123,
                build_state: @project.build_state,
                coverage: @project.coverage,
                name: @project.name
@@ -59,22 +78,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to project_url(Project.last)
-  end
-
-  test 'should not create project without name' do
-    sign_in users(:alice)
-    assert_no_difference('Project.count') do
-      post projects_url,
-           params: {
-             project: {
-               build_state: @project.build_state,
-               coverage: @project.coverage
-             }
-           }
-    end
-
-    assert_response :success
-    assert_select 'li', "Name can't be blank"
   end
 
   test 'should not show project logged out' do
@@ -110,11 +113,22 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to project_url(@project)
   end
 
-  test 'should not remove name from project' do
+  test 'should not remove origin from project' do
     sign_in users(:alice)
-    patch project_url(@project), params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: nil } }
+    patch project_url(@project), params: { project: {
+      origin: nil
+    } }
     assert_response :success
-    assert_select 'li', "Name can't be blank"
+    assert_select 'li', "Origin can't be blank"
+  end
+
+  test 'should not remove origin_id from project' do
+    sign_in users(:alice)
+    patch project_url(@project), params: { project: {
+      origin_id: nil
+    } }
+    assert_response :success
+    assert_select 'li', "Origin can't be blank"
   end
 
   test 'should not destroy project logged out' do

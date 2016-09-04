@@ -37,6 +37,10 @@ gem 'haml'
 gem 'devise'
 gem 'omniauth-github'
 gem 'omniauth-gitlab'
+gem 'oauth2'
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -59,10 +63,10 @@ group :test do
 
   # Use Rubocop for style checks
   gem 'rubocop', require: false
-end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+  # Use WebMock to stub web request
+  gem 'webmock', require: false
+end
 
 # Gemified versions of Bower packages for frontend
 source 'https://rails-assets.org' do
