@@ -65,7 +65,7 @@ group :test do
   gem 'rubocop', require: false
 
   # Use WebMock to stub web request
-  gem 'webmock', require: false
+  gem 'webmock'
 end
 
 # Gemified versions of Bower packages for frontend
