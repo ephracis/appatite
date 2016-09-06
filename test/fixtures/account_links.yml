@@ -1,6 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 link1:
-  provider: TestProvider
+  provider: github
   uid: test
   user: alice
+  token: mytoken
+link2:
+  provider: gitlab
+  uid: test
+  user: alice
+  token: mytoken

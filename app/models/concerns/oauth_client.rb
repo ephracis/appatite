@@ -7,28 +7,28 @@ module OauthClient
     access_token.request(http_method, path, *arguments)
   end
 
-  def get(path, headers = {})
-    request(:get, path, headers)
+  def get(path, opts = {}, &block)
+    access_token.get(path, opts, &block)
   end
 
-  def head(path, headers = {})
-    request(:head, path, headers)
+  def head(path, opts = {}, &block)
+    access_token.head(path, opts, &block)
   end
 
-  def post(path, body = '', headers = {})
-    request(:post, path, body, headers)
+  def post(path, opts = {}, &block)
+    access_token.post(path, opts, &block)
   end
 
-  def put(path, body = '', headers = {})
-    request(:put, path, body, headers)
+  def put(path, opts = {}, &block)
+    access_token.put(path, opts, &block)
   end
 
-  def patch(path, body = '', headers = {})
-    request(:patch, path, body, headers)
+  def patch(path, opts = {}, &block)
+    access_token.patch(path, opts, &block)
   end
 
-  def delete(path, headers = {})
-    request(:delete, path, headers)
+  def delete(path, opts = {}, &block)
+    access_token.delete(path, opts, &block)
   end
 
   def client

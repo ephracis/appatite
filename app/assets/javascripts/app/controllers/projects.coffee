@@ -1,10 +1,10 @@
 @app.controller 'ProjectsCtrl', ['$scope', '$http', ($scope, $http) ->
   $scope.projects = {}
-  $scope.activateProject = ($origin, $id) ->
+  $scope.activateProject = ($origin, $id, $api_url) ->
     $scope.projects["#{$origin}-#{$id}"]['state'] = 'activating'
     $http.post(
       '/projects.json',
-      { project: { origin: $origin, origin_id: $id } }
+      { project: { origin: $origin, origin_id: $id, api_url: $api_url } }
     ).then(
       successCallback = (response) ->
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'active'
@@ -13,12 +13,12 @@
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'inactive'
     )
 
-  $scope.deactivateProject = ($origin, $id) ->
+  $scope.deactivateProject = ($origin, $id, $api_url) ->
     $scope.projects["#{$origin}-#{$id}"]['state'] = 'deactivating'
     $http.patch(
       '/projects/0.json',
       {
-        origin: $origin, origin_id: $id,
+        origin: $origin, origin_id: $id, api_url: $api_url,
         project: { active: false }
       }
     ).then(

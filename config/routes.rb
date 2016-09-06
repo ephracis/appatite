@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # resources
   resources :projects do
     get 'setup', on: :collection
+    post 'webhook', on: :collection
   end
 
   # static

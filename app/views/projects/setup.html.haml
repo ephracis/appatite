@@ -15,12 +15,12 @@
             .btn.btn-success{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'activating'" }}
               %span.fa.fa-spinner.fa-pulse.fa-fw
               Activating
-            .btn.btn-success{ ng: { show: "projects['#{uniq_id}']['state'] == 'inactive'", click: "activateProject('#{project[:origin]}', '#{project[:id]}')" }}
+            .btn.btn-success{ ng: { show: "projects['#{uniq_id}']['state'] == 'inactive'", click: "activateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
               Activate
             .btn.btn-danger{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'deactivating'" }}
               %span.fa.fa-spinner.fa-pulse.fa-fw
               Deactivating
-            .btn.btn-danger{ ng: { show: "projects['#{uniq_id}']['state'] == 'active'", click: "deactivateProject('#{project[:origin]}', '#{project[:id]}')" }}
+            .btn.btn-danger{ ng: { show: "projects['#{uniq_id}']['state'] == 'active'", click: "deactivateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
               Deactivate
 
 - else

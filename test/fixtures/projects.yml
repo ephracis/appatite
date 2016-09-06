@@ -1,17 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-project1:
+gitlab_project:
   name: Project1
   origin: gitlab
   origin_id: 123
+  api_url: https://gitlab.com/api/v3/projects/123
   user: alice
   coverage: 1
+  active: true
   build_state: success
 
-project2:
+github_project:
   name: Project2
   origin: github
   origin_id: 123
+  api_url: https://api.github.com/alice/test-repo
   user: alice
+  active: true
   coverage: 95
   build_state: failed
