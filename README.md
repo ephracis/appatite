@@ -1,11 +1,14 @@
 [![Build Status](https://travis-ci.org/ephracis/appatite.svg?branch=master)](https://travis-ci.org/ephracis/appatite)
 [![Code Climate](https://codeclimate.com/github/ephracis/appatite/badges/gpa.svg)](https://codeclimate.com/github/ephracis/appatite)
 [![Test Coverage](https://codeclimate.com/github/ephracis/appatite/badges/coverage.svg)](https://codeclimate.com/github/ephracis/appatite/coverage)
+[![Stories in progress](https://badge.waffle.io/ephracis/appatite.svg?label=in%20progress&title=in%20progress)](http://waffle.io/ephracis/appatite)
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/ephracis/appatite/master/LICENSE)
+[![Issue Stats](http://www.issuestats.com/github/ephracis/appatite/badge/pr?style=flat)](http://www.issuestats.com/github/ephracis/appatite)
+[![Issue Stats](http://www.issuestats.com/github/ephracis/appatite/badge/issue?style=flat)](http://www.issuestats.com/github/ephracis/appatite)
 
 # Welcome to Appatite
 
-This is the project for the Appatite website.
+This is the project for the [Appatite website](appatite.herokuapp.com).
 
 ## Get started
 
@@ -13,11 +16,9 @@ This is the project for the Appatite website.
 To enable signing in with Github or Gitlab you need to register an app
 with those providers and save your ID and secret in the configuration file.
 
-Register your application to get your ID and secret:
-- Go to [Github](https://github.com/settings/developers) and set
-  callback URL to `http://<HOSTNAME>/users/auth/gitlab/callback`
-- Go to [Gitlab](https://gitlab.com/profile/applications) and set
-  callback URL to `http://<HOSTNAME>/users/auth/github/callback`
+Register your application on [Github](https://github.com/settings/developers)
+and [Gitlab](https://gitlab.com/profile/applications) to get your ID and secret.
+Set callback URL to `http://<HOSTNAME>/users/auth/gitlab/callback`.
 
 Then create the file `.env` and put in your tokens:
 

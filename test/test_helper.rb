@@ -17,6 +17,18 @@ class ActiveSupport::TestCase
   end
 
   def teardown
+    WebMock.reset!
+    WebMock.allow_net_connect!
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  def setup
+    WebMock.disable_net_connect!(allow_localhost: true)
+  end
+
+  def teardown
+    WebMock.reset!
     WebMock.allow_net_connect!
   end
 end

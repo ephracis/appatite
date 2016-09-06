@@ -20,4 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      project:
+        origin_id:
+          one:   Origin ID
+          other: Origin IDs
+        api_url:
+          one:   API URL
+          other: API URLs

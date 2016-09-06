@@ -44,7 +44,7 @@ class AccountLinkTest < ActiveSupport::TestCase
   end
 
   test 'should get gitlab projects' do
-    stub_request(:get, 'https://gitlab.com/api/v3/projects?access_token=mytoken')
+    stub_request(:get, 'https://gitlab.com/api/v3/projects')
       .to_return(body: [{ id: 42 }, { id: 1337 }].to_json)
     link = AccountLink.new(
       user: users(:alice),
