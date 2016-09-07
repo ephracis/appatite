@@ -4,7 +4,7 @@
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/ephracis/appatite/master/LICENSE)
 [![Issue Stats](http://www.issuestats.com/github/ephracis/appatite/badge/pr?style=flat)](http://www.issuestats.com/github/ephracis/appatite)
 [![Issue Stats](http://www.issuestats.com/github/ephracis/appatite/badge/issue?style=flat)](http://www.issuestats.com/github/ephracis/appatite)
-[![Stories in progress](https://badge.waffle.io/ephracis/appatite.svg?label=issues%20in%20progress&title=in%20progress)](http://waffle.io/ephracis/appatite)
+[![Issues in progress](https://badge.waffle.io/ephracis/appatite.svg?label=in%20progress&title=issues%20in%20progress)](http://waffle.io/ephracis/appatite)
 
 # Welcome to Appatite
 

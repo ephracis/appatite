@@ -20,6 +20,5 @@ Vagrant.configure(2) do |config|
      bin/rails db:create
      set -e
      bin/rails db:migrate
-     bin/rails server -b 0.0.0.0 -p 3000
   SHELL
 end
