@@ -60,7 +60,7 @@ module Github
   def translate_state(state)
     case state
     when 'pending' then 'running'
-    when 'passed' then 'success'
+    when 'success' then 'success'
     when 'failed' then 'failed'
     else 'unknown'
     end
