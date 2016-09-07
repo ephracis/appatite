@@ -92,7 +92,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       .to_return(body: statuses_data.to_json)
     stub_request(:post, 'https://api.github.com/repos/alice/test-repo/hooks')
       .with(body: {
-        name: 'appatite',
+        name: 'web',
         active: true,
         events: [:status],
         config: {
@@ -228,7 +228,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to project_url(@project)
     assert_requested :post, "#{@project.api_url}/hooks", body: {
-      name: 'appatite',
+      name: 'web',
       active: true,
       events: [:status],
       config: {

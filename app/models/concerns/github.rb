@@ -34,7 +34,7 @@ module Github
 
   def create_github_webhook(url)
     hook_data = {
-      name: 'appatite',
+      name: 'web',
       active: true,
       events: [:status],
       config: {

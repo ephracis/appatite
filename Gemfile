@@ -69,6 +69,9 @@ group :test do
 
   # Use WebMock to stub web request
   gem 'webmock'
+
+  # Use Mocha for stubbing and mocking in Ruby tests
+  gem 'mocha'
 end
 
 # Gemified versions of Bower packages for frontend
