@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  # admin
   get 'admin/overview'
   get 'admin/users'
   get 'admin/projects'
@@ -24,6 +26,6 @@ Rails.application.routes.draw do
   end
 
   # static
-  get '/about', to: 'static#about'
+  get '/pricing', to: 'static#pricing'
   root to: 'static#index'
 end
