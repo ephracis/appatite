@@ -131,7 +131,7 @@ class ProjectTest < ActiveSupport::TestCase
   test 'should create github webhook' do
     stub_request(:post, 'https://api.github.com/repos/alice/test-repo/hooks')
       .with(body: {
-        name: 'appatite',
+        name: 'web',
         active: true,
         events: [:status],
         config: {
@@ -252,5 +252,41 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 'alice/new-name', project.name
     assert_equal 'running', project.build_state
     assert_equal 'new description here', project.description
+  end
+
+  test 'should raise when creating hook on unsupported provider' do
+    project = Project.new(
+      origin: 'test'
+    )
+    assert_raises RuntimeError do
+      project.create_hook('test')
+    end
+  end
+
+  test 'should raise when deleting hook on unsupported provider' do
+    project = Project.new(
+      origin: 'test'
+    )
+    assert_raises RuntimeError do
+      project.delete_hook('test')
+    end
+  end
+
+  test 'should raise when fetching metadata from unsupported provider' do
+    project = Project.new(
+      origin: 'test'
+    )
+    assert_raises RuntimeError do
+      project.send(:fetch_metadata)
+    end
+  end
+
+  test 'should raise when getting url for unsupported provider' do
+    project = Project.new(
+      origin: 'test'
+    )
+    assert_raises RuntimeError do
+      project.send(:provider_url)
+    end
   end
 end
