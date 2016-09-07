@@ -21,6 +21,7 @@ class Project < ApplicationRecord
   end
 
   def create_hook(url)
+    return if Rails.env.development?
     case provider.to_sym
     when :github then create_github_webhook(url)
     when :gitlab then create_gitlab_webhook(url)
@@ -30,6 +31,7 @@ class Project < ApplicationRecord
   end
 
   def delete_hook(url)
+    return if Rails.env.development?
     case provider.to_sym
     when :github then delete_github_webhook(url)
     when :gitlab then delete_gitlab_webhook(url)

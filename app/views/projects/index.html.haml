@@ -21,7 +21,7 @@
             Success
           .label.label-danger{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'failed'" }}
             Failed
-          .label.label-default{ ng: { show: "projects['#{uniq_id}']['build_state'] == ''" }}
+          .label.label-default{ ng: { show: "['', 'unknown'].indexOf(projects['#{uniq_id}']['build_state']) > -1" }}
             Unknown
           .label.label-primary{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'running'" }}
             Running
