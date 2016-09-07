@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: :webhook
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, only: :webhook
 
   # GET /projects
   # GET /projects.json

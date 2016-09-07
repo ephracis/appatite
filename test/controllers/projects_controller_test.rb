@@ -366,39 +366,51 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should handle github hook' do
-    @project = projects(:github_project)
-    hook_data = {
-      state: 'pending',
-      repository: {
-        url: @project.api_url,
-        full_name: 'alice/new-name',
-        description: 'new description here'
-      }
-    }.to_json
-    post webhook_projects_url, params: hook_data, headers: { 'X-GitHub-Event' => 'status' }
-    assert_response :success
-    assert_equal 'alice/new-name', Project.find(@project.id).name
-    assert_equal 'running', Project.find(@project.id).build_state
+    with_forgery_protection do
+      @project = projects(:github_project)
+      hook_data = {
+        state: 'pending',
+        repository: {
+          url: @project.api_url,
+          full_name: 'alice/new-name',
+          description: 'new description here'
+        }
+      }.to_json
+      post webhook_projects_url, params: hook_data, headers: { 'X-GitHub-Event' => 'status' }
+      assert_response :success
+      assert_equal 'alice/new-name', Project.find(@project.id).name
+      assert_equal 'running', Project.find(@project.id).build_state
+    end
   end
 
   test 'should handle gitlab hook' do
-    hook_data = {
-      builds: [
-        {
-          status: 'running'
-        },
-        {
-          status: 'success'
+    with_forgery_protection do
+      hook_data = {
+        builds: [
+          {
+            status: 'running'
+          },
+          {
+            status: 'success'
+          }
+        ],
+        project: {
+          id: 123,
+          path_with_namespace: 'alice/new-name',
+          description: 'new description here'
         }
-      ],
-      project: {
-        id: 123,
-        path_with_namespace: 'alice/new-name',
-        description: 'new description here'
-      }
-    }.to_json
-    post webhook_projects_url, params: hook_data
-    assert_equal 'alice/new-name', Project.find(@project.id).name
-    assert_equal 'running', Project.find(@project.id).build_state
+      }.to_json
+      post webhook_projects_url, params: hook_data
+      assert_equal 'alice/new-name', Project.find(@project.id).name
+      assert_equal 'running', Project.find(@project.id).build_state
+    end
+  end
+
+  def with_forgery_protection
+    old_value = ActionController::Base.allow_forgery_protection
+    ActionController::Base.allow_forgery_protection = true
+    yield
+  ensure
+    ActionController::Base.allow_forgery_protection = old_value
   end
 end
