@@ -1,2 +1,24 @@
-%h1 Overview
-%p Overview goes here
+.row
+  .col-xs-6.text-center
+    %h2= User.count
+    .lead= 'User'.pluralize(User.count)
+  .col-xs-6.text-center
+    %h2= Project.count
+    .lead= 'Project'.pluralize(Project.count)
+.row
+  .col-md-6
+    %h4 Recent registrations
+    - if @recent_users.blank?
+      .alert.alert-info
+        No users found
+    - else
+      = render @recent_users
+    .spacer
+  .col-md-6
+    %h4 Recent projects
+    - if @recent_projects.blank?
+      .alert.alert-info
+        No projects found
+    - else
+      = render @recent_projects
+    .spacer

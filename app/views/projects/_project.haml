@@ -1,0 +1,10 @@
+.media
+  .media-left
+    = link_to project_url(project) do
+      = content_tag :span, '', class: "fa fa-3x fa-fw fa-#{project.origin}"
+  .media-body
+    %h5= project.name
+    %span.fa.fa-calendar
+    Created
+    = time_ago_in_words(project.created_at)
+    ago
