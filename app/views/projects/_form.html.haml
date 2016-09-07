@@ -22,7 +22,7 @@
 
   .form-group
     = f.label :build_state
-    = f.select :build_state, [['Success', :success], ['Failed', :failed], ['Running', :running]], {}, class: 'form-control'
+    = f.select :build_state, [['Success', :success], ['Failed', :failed], ['Running', :running], ['Unknown', :unknown], ['Empty', '']], {}, class: 'form-control'
 
   .actions
     = f.submit class: 'btn btn-primary'

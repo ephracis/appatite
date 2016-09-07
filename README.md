@@ -42,8 +42,10 @@ You can now access the machine:
 
 Run the tests:
 
-    rubocop -aD # code linting with automatic correction
-    bin/rails test # ruby unit and integration tests
+```bash
+rubocop -aD # code linting with automatic correction
+bin/rails test # ruby unit and integration tests
+```
 
 Start the server:
 
