@@ -35,6 +35,20 @@ Run the following command to spin up a dev machine running the app:
 
     vagrant up
 
+You can now access the machine:
+
+    vagrant ssh
+    cd /vagrant
+
+Run the tests:
+
+    rubocop -aD # code linting with automatic correction
+    bin/rails test # ruby unit and integration tests
+
+Start the server:
+
+    bin/rails server
+
 You can now access the app on http://localhost:3000.
 
 ### Manually
@@ -68,7 +82,7 @@ Install PostgreSQL by issuing the following commands:
 #### Bundler
 Install Bundler for managing Ruby gems:
 
-    gem install Bundler
+    gem install bundler
 
 #### Ruby gems
 Continue to install all Ruby gem dependencies for the web app:
@@ -80,10 +94,5 @@ Create the database
 
     bin/rails db:setup
 
-## Run tests
-Lint the code with the command `rubocop -aD`.
-
-Run the test by issuing the command `bin/rails test`.
-
-## Run local server
-Run a local server on port 3000 by issuing the command `bin/rails server`.
+That's it! You can now run the tests and start the server just as described
+above in the *Vagrant* section.
