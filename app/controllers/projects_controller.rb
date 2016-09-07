@@ -65,13 +65,12 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.where(
       api_url: project_params[:api_url]
-    ).first_or_initialize do |p|
-      p.user = current_user
-      p.origin = project_params[:origin]
-      p.origin_id = project_params[:origin_id]
-      p.active = true
-      p.refresh
-    end
+    ).first_or_initialize
+    @project.user = current_user
+    @project.origin = project_params[:origin]
+    @project.origin_id = project_params[:origin_id]
+    @project.refresh
+    @project.active = true
 
     respond_to do |format|
       if @project.save
