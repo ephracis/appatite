@@ -8,19 +8,19 @@
       - @projects.each do |project|
         - uniq_id = [project[:origin],project[:id]].join '-'
         %tr{ ng: { init: "projects['#{uniq_id}'] = { state: '#{project[:state]}' }"}}
-          %td
+          %td.table-link
             = content_tag :span, '', class: "fa fa-fw fa-#{project[:origin]}"
             = link_to project[:name], project[:url], target: '_blank'
           %td.text-right
-            .btn.btn-success{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'activating'" }}
+            .btn.btn-sm.btn-success{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'activating'" }}
               %span.fa.fa-spinner.fa-pulse.fa-fw
               Activating
-            .btn.btn-success{ ng: { show: "projects['#{uniq_id}']['state'] == 'inactive'", click: "activateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
+            .btn.btn-sm.btn-success{ ng: { show: "projects['#{uniq_id}']['state'] == 'inactive'", click: "activateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
               Activate
-            .btn.btn-danger{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'deactivating'" }}
+            .btn.btn-sm.btn-danger{ disabled: true, ng: { show: "projects['#{uniq_id}']['state'] == 'deactivating'" }}
               %span.fa.fa-spinner.fa-pulse.fa-fw
               Deactivating
-            .btn.btn-danger{ ng: { show: "projects['#{uniq_id}']['state'] == 'active'", click: "deactivateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
+            .btn.btn-sm.btn-danger{ ng: { show: "projects['#{uniq_id}']['state'] == 'active'", click: "deactivateProject('#{project[:origin]}', '#{project[:id]}', '#{project[:api_url]}')" }}
               Deactivate
 
 - else

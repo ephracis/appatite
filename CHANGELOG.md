@@ -10,5 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Import projects from Gitlab or Github.
 - Admin area with list of registered users.
 - Updates to project meta data in real time.
+- Optimized for mobile phones.
 
 [Unreleased]: https://github.com/ephracis/appatite/compare/8c736d6...HEAD

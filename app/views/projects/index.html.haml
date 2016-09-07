@@ -7,12 +7,12 @@
     %tr
       %th Name
       %th Build status
-      %th Code coverage
+      %th.hidden-xs Code coverage
   %tbody
     - @projects.each do |project|
       - uniq_id = [project.origin,project.origin_id].join '-'
       %tr{ ng: { init: "projects['#{uniq_id}'] = { build_state: '#{project.build_state.to_s.downcase}', coverage: '#{project.coverage || 0}', name: '#{project.name}' }"}}
-        %td
+        %td.table-link
           = content_tag :span, '', class: "fa fa-fw fa-#{project.origin}"
           %a{ href: url_for(project) }
             {{projects['#{uniq_id}']['name']}}
@@ -25,7 +25,7 @@
             Unknown
           .label.label-primary{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'running'" }}
             Running
-        %td
+        %td.hidden-xs
           .label.label-test.label-test-10{ ng: { show: "projects['#{uniq_id}']['coverage'] < 10" }}
             {{projects['#{uniq_id}']['coverage']}}%
           .label.label-test.label-test-20{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 10 && projects['#{uniq_id}']['coverage'] < 20" }}
