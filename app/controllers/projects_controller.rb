@@ -38,6 +38,7 @@ class ProjectsController < ApplicationController
     project = Project.find_by(api_url: api_url)
     project.receive_hook(payload) if project
     if project && project.save
+      ProjectChannel.broadcast_to project.user, project
       head :ok
     else
       format.json { render json: project.errors, status: :unprocessable_entity }
