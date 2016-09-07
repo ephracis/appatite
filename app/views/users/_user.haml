@@ -1,0 +1,13 @@
+.media
+  .media-left
+    = link_to user_path(user) do
+      - if user.image.blank?
+        %span.fa.fa-3x.fa-fw.fa-user
+      - else
+        = image_tag user.image, class: 'img-circle', width: 42
+  .media-body
+    %h5= user.name
+    %span.fa.fa-calendar
+    Joined
+    = time_ago_in_words(user.created_at)
+    ago
