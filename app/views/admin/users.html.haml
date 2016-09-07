@@ -7,15 +7,15 @@
       %thead 
         %tr
           %th Name
-          %th Email
-          %th Admin
+          %th.hidden-xs.hidden-sm Email
+          %th.hidden-xs Admin
           %th
       %tbody
         - User.all.each do |user|
           %tr{ ng: { init: "users['#{user.id}'] = #{user.admin?}" }}
             %td= link_to user.name, user
-            %td= user.email
-            %td= check_box_tag :admin, 1, user.is_admin, { 'ng-model' => "users['#{user.id}']", 'ng-click' => "toggleAdmin(#{user.id})" }
+            %td.hidden-xs.hidden-sm= user.email
+            %td.hidden-xs= check_box_tag :admin, 1, user.is_admin, { 'ng-model' => "users['#{user.id}']", 'ng-click' => "toggleAdmin(#{user.id})" }
             %td.text-right
               = link_to edit_user_path(user), class: 'btn btn-xs btn-default' do
                 %span.fa.fa-pencil
