@@ -9,7 +9,7 @@
 
 # Welcome to Appatite
 
-This is the project for the [Appatite website](appatite.herokuapp.com).
+This is the project for the [Appatite website](http://appatite.herokuapp.com).
 
 ## Get started
 

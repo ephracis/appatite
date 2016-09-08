@@ -1,7 +1,7 @@
 class Users::ProfileController < Devise::RegistrationsController
   before_action -> { authenticate_user! force: true }
   before_action :ensure_admin, only: :toggle_admin
-  before_action :set_resource
+  before_action :set_user
 
   # Toggle admin flag on a user
   def toggle_admin
@@ -21,9 +21,25 @@ class Users::ProfileController < Devise::RegistrationsController
     @user = current_user unless current_user.admin?
   end
 
+  def update
+    @user = current_user.admin? ? User.find(params[:id]) : current_user
+    if @user.update(user_params)
+      redirect_to @user, notice: 'Profile was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
   private
 
-  def set_resource
+  def set_user
     @user = User.find params[:id]
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(
+      :name, :image, :email
+    )
   end
 end
