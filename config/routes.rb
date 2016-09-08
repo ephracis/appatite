@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     patch 'users/:id/toggle_admin', to: 'users/profile#toggle_admin', as: :toggle_admin
     get 'users/:id', to: 'users/profile#show', as: :user
     get 'users/:id/edit', to: 'users/profile#edit', as: :edit_user
+    patch 'users/:id', to: 'users/profile#update'
   end
 
   # resources

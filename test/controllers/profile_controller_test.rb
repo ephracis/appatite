@@ -51,4 +51,32 @@ class Users::ProfileControllerTest < ActionDispatch::IntegrationTest
     patch toggle_admin_path(users(:admin), format: :json)
     assert_response :unprocessable_entity
   end
+
+  test 'should not update profile logged out' do
+    patch user_url(@user), params: { user: { name: @user.name } }
+    assert_redirected_to new_user_session_path
+  end
+
+  test 'should update profile' do
+    sign_in @user
+    patch user_url(@user), params: { user: { name: @user.name } }
+    assert_redirected_to user_url(@user)
+  end
+
+  test 'should not update someone elses profile' do
+    user = users(:alice)
+    other_user = users(:bob)
+    sign_in user
+    patch user_url(other_user), params: { user: { name: 'New Name' } }
+    assert_redirected_to user_url(user)
+    assert_equal 'New Name', User.find(user.id).name
+    assert_not_equal 'New Name', User.find(other_user.id).name
+  end
+
+  test 'should update someone elses profile when admin' do
+    sign_in users(:admin)
+    patch user_url(users(:bob)), params: { user: { name: 'New Name' } }
+    assert_redirected_to user_path(users(:bob).id)
+    assert_equal 'New Name', User.find(users(:bob).id).name
+  end
 end

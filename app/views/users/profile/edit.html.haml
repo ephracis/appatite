@@ -1,5 +1,43 @@
-.text-center
-  %h1 Edit profile
-  %p
-    Here we will put some stuff for editing the profile and account settings for
-    = @user.name
+.container
+  .row
+    .col-lg-3.form-section
+      %h2 Main settings
+      This information will appear on your profile.
+    .col-lg-9
+      = form_for(@user) do |f|
+        - if @user.errors.any?
+          #error_explanation.alert.alert-danger
+            %h2
+              = pluralize(@user.errors.count, "error")
+              prohibited this project from being saved:
+
+            %ul
+            - project.errors.full_messages.each do |message|
+              %li= message
+
+        .row
+          .col-sm-2
+            = image_tag @user.image || '', class: 'img-circle form-avatar', width: 80
+          .col-sm-10
+            .form-group
+              = f.label :image
+              = f.text_field :image, class: 'form-control'
+              %span.help-block
+                Provide a URL to an image you'd like to use as an avatar.
+            
+        .form-group
+          = f.label :name
+          = f.text_field :name, class: 'form-control'
+          %span.help-block
+            Let people recognize you by telling us your name.
+            
+        .form-group
+          = f.label :email
+          = f.text_field :email, class: 'form-control'
+          %span.help-block
+            We use your email for finding commits that belong to you.
+
+        .actions
+          = f.submit class: 'btn btn-primary'
+          .pull-right
+            = link_to 'Cancel', user_path(@user), class: 'btn btn-default'
