@@ -13,10 +13,10 @@ Rails:
   Enabled: true
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 18
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 110
   Exclude:
     - 'test/**/*'
 
@@ -28,6 +28,12 @@ Metrics/PerceivedComplexity:
   Exclude:
     - 'app/controllers/projects_controller.rb'
 
+Metrics/AbcSize:
+  Max: 20
+  Exclude:
+    - 'app/controllers/projects_controller.rb'
+    - 'app/models/account_link.rb'
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
@@ -38,7 +44,4 @@ Style/Documentation:
   Enabled: false
 
 Metrics/LineLength:
-  Enabled: false
-
-Metrics/AbcSize:
   Enabled: false

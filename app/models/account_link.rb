@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'backends'
 
 class AccountLink < ApplicationRecord
   belongs_to :user
@@ -6,10 +6,6 @@ class AccountLink < ApplicationRecord
   validates :provider, presence: true
   validates :uid, presence: true
   validates :uid, uniqueness: { scope: :provider }
-
-  include OauthClient
-  include Gitlab
-  include Github
 
   def self.from_omniauth(auth)
     l = where(provider: auth.provider, uid: auth.uid).first_or_create do |link|
@@ -28,21 +24,32 @@ class AccountLink < ApplicationRecord
     l
   end
 
-  def projects
-    case provider
-    when 'gitlab' then gitlab_projects
-    when 'github' then github_projects
-    else []
-    end
+  delegate :projects, to: :backend
+
+  def backend
+    @backend ||= load_backend
   end
 
   private
 
-  def provider_url
+  def load_backend
     case provider
-    when 'gitlab' then gitlab_url
-    when 'github' then github_url
-    else super
+    when 'gitlab'
+      Appatite::Backends::Gitlab.new(
+        'https://gitlab.com',
+        ENV['GITLAB_ID'],
+        ENV['GITLAB_SECRET'],
+        token
+      )
+    when 'github'
+      Appatite::Backends::Github.new(
+        'https://api.github.com',
+        ENV['GITHUB_ID'],
+        ENV['GITHUB_SECRET'],
+        token
+      )
+    else
+      raise "Could not find backend for provider '#{provider}'"
     end
   end
 end

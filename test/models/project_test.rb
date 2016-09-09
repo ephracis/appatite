@@ -271,22 +271,4 @@ class ProjectTest < ActiveSupport::TestCase
       project.delete_hook('test')
     end
   end
-
-  test 'should raise when fetching metadata from unsupported provider' do
-    project = Project.new(
-      origin: 'test'
-    )
-    assert_raises RuntimeError do
-      project.send(:fetch_metadata)
-    end
-  end
-
-  test 'should raise when getting url for unsupported provider' do
-    project = Project.new(
-      origin: 'test'
-    )
-    assert_raises RuntimeError do
-      project.send(:provider_url)
-    end
-  end
 end
