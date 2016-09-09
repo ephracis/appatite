@@ -14,7 +14,9 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    sign_in users(:alice)
+    user = users(:alice)
+    user.follow(@project)
+    sign_in user
     get projects_url
     assert_response :success
   end
@@ -201,20 +203,62 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test 'should get edit' do
-    sign_in users(:alice)
+  test 'should not get edit if not owner' do
+    sign_in users(:bob)
+    assert_raises ActiveRecord::RecordNotFound do
+      get edit_project_url(@project)
+    end
+  end
+
+  test 'should get edit as owner' do
+    sign_in @project.user
+    get edit_project_url(@project)
+    assert_response :success
+  end
+
+  test 'should get edit as admin' do
+    sign_in users(:admin)
     get edit_project_url(@project)
     assert_response :success
   end
 
   test 'should not update project logged out' do
-    patch project_url(@project), params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: @project.name } }
+    patch project_url(@project), params: { project: {
+      build_state: @project.build_state,
+      coverage: @project.coverage,
+      name: @project.name
+    } }
     assert_redirected_to new_user_session_path
   end
 
   test 'should update project' do
-    sign_in users(:alice)
-    patch project_url(@project), params: { project: { build_state: @project.build_state, coverage: @project.coverage, name: @project.name } }
+    sign_in users(:bob)
+    assert_raises ActiveRecord::RecordNotFound do
+      patch project_url(@project), params: { project: {
+        build_state: @project.build_state,
+        coverage: @project.coverage,
+        name: @project.name
+      } }
+    end
+  end
+
+  test 'should update project as owner' do
+    sign_in @project.user
+    patch project_url(@project), params: { project: {
+      build_state: @project.build_state,
+      coverage: @project.coverage,
+      name: @project.name
+    } }
+    assert_redirected_to project_url(@project)
+  end
+
+  test 'should update project as admin' do
+    sign_in users(:admin)
+    patch project_url(@project), params: { project: {
+      build_state: @project.build_state,
+      coverage: @project.coverage,
+      name: @project.name
+    } }
     assert_redirected_to project_url(@project)
   end
 
@@ -252,6 +296,15 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     }.to_json
   end
 
+  test 'should unfollow project' do
+    users(:bob).follow(@project)
+    sign_in users(:bob)
+    assert_difference('@project.followers_count', -1) do
+      delete project_url(@project)
+    end
+    assert_redirected_to project_url(@project)
+  end
+
   test 'should deactivate github project' do
     @project = projects(:github_project)
     stub_request(:get, "#{@project.api_url}/hooks")
@@ -264,10 +317,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       .to_return(status: 204)
     @project.update_attribute(:active, true)
 
-    sign_in users(:alice)
-    patch project_url(@project), params: { project: { active: false } }
+    sign_in @project.user
+    delete project_url(@project)
 
-    assert_redirected_to project_url(@project)
+    assert_redirected_to projects_url
+    assert_equal false, Project.find(@project.id).active
     assert_requested :get, "#{@project.api_url}/hooks"
     assert_requested :delete, "#{@project.api_url}/hooks/42"
   end
@@ -283,10 +337,11 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       .to_return(status: 204)
     @project.update_attribute(:active, true)
 
-    sign_in users(:alice)
-    patch project_url(@project), params: { project: { active: false } }
+    sign_in @project.user
+    delete project_url(@project)
 
-    assert_redirected_to project_url(@project)
+    assert_redirected_to projects_url
+    assert_equal false, Project.find(@project.id).active
     assert_requested :get, "#{@project.api_url}/hooks"
     assert_requested :delete, "#{@project.api_url}/hooks/42"
   end
@@ -326,7 +381,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test 'should destroy github project' do
+  # TODO: only admin and (owner without followers)
+  test 'should destroy github project as admin' do
     @project = projects(:github_project)
     stub_request(:get, "#{@project.api_url}/hooks")
       .to_return(body: [
@@ -336,9 +392,9 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       ].to_json)
     stub_request(:delete, "#{@project.api_url}/hooks/42")
       .to_return(status: 204)
-    sign_in users(:alice)
+    sign_in users(:admin)
     assert_difference('Project.count', -1) do
-      delete project_url(@project)
+      delete project_url(@project), params: { force: true }
     end
 
     assert_redirected_to projects_url
@@ -346,7 +402,8 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_requested :delete, "#{@project.api_url}/hooks/42"
   end
 
-  test 'should destroy gitlab project' do
+  # TODO: only admin and (owner without followers)
+  test 'should destroy gitlab project as admin' do
     stub_request(:get, "#{@project.api_url}/hooks")
       .to_return(body: [
         { id: 123, url: 'http://example.com/test' },
@@ -355,9 +412,9 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       ].to_json)
     stub_request(:delete, "#{@project.api_url}/hooks/42")
       .to_return(status: 204)
-    sign_in users(:alice)
+    sign_in users(:admin)
     assert_difference('Project.count', -1) do
-      delete project_url(@project)
+      delete project_url(@project), params: { force: true }
     end
 
     assert_redirected_to projects_url

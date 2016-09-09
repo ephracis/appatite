@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
 
+  acts_as_follower
+
   def self.new_with_session(params, session)
     super.tap do |_user|
     end

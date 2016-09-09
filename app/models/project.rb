@@ -9,6 +9,8 @@ class Project < ApplicationRecord
   validates :api_url, uniqueness: true
   belongs_to :user
 
+  acts_as_followable
+
   def refresh
     return unless origin
     meta = backend.get_project(api_url)

@@ -15,12 +15,9 @@
 
   $scope.deactivateProject = ($origin, $id, $api_url) ->
     $scope.projects["#{$origin}-#{$id}"]['state'] = 'deactivating'
-    $http.patch(
+    $http.delete(
       '/projects/0.json',
-      {
-        origin: $origin, origin_id: $id, api_url: $api_url,
-        project: { active: false }
-      }
+      { params: { origin: $origin, origin_id: $id, api_url: $api_url } }
     ).then(
       successCallback = (response) ->
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'inactive'
