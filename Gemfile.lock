@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/tcocca/acts_as_follower.git
+  revision: c395dd2f1d62a5879e9d084c770dc35e02ee1043
+  specs:
+    acts_as_follower (0.2.1)
+      activerecord (>= 4.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -245,6 +252,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_follower!
   byebug
   codeclimate-test-reporter
   coffee-rails (~> 4.2)
