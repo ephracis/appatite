@@ -30,7 +30,7 @@
           %ul.nav.navbar-nav.navbar-right
             - if admin?
               %li
-                = link_to admin_overview_path do
+                = link_to admin_root_path do
                   %span.hidden-xs
                     %span.fa.fa-wrench.fa-fw
                   %span.visible-xs
@@ -57,7 +57,7 @@
                     = link_to destroy_user_session_path, method: :delete do
                       %span.fa.fa-sign-out
                       Logout
-            - else
+            - elsif any_auth?
               %li
                 = link_to new_user_session_path do
                   %span.fa.fa-sign-in

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909172428) do
+ActiveRecord::Schema.define(version: 20160910051856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20160909172428) do
     t.datetime "updated_at"
     t.datetime "created_at"
     t.index ["user_id"], name: "index_account_links_on_user_id", using: :btree
+  end
+
+  create_table "application_settings", force: :cascade do |t|
+    t.boolean  "gitlab_enabled"
+    t.string   "gitlab_url"
+    t.string   "gitlab_id"
+    t.string   "gitlab_secret"
+    t.boolean  "github_enabled"
+    t.string   "github_id"
+    t.string   "github_secret"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "follows", force: :cascade do |t|

@@ -1,14 +1,25 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def github
-    sign_in_with_oauth 'Github'
+    unless ApplicationSetting.current.github_enabled
+      redirect_to(root_path, notice: 'GitHub authentication is disabled') && return
+    end
+    sign_in_with_oauth 'GitHub'
   end
 
   def gitlab
-    sign_in_with_oauth 'Gitlab'
+    unless ApplicationSetting.current.gitlab_enabled
+      redirect_to(root_path, notice: 'GitLab authentication is disabled') && return
+    end
+    sign_in_with_oauth 'GitLab'
   end
 
   def failure
     redirect_to new_user_session_path
+  end
+
+  def setup
+    ApplicationSetting.current.setup_omniauth request.env['omniauth.strategy']
+    head 404
   end
 
   protected

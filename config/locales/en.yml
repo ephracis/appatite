@@ -29,3 +29,9 @@ en:
         api_url:
           one:   API URL
           other: API URLs
+      application_setting:
+        github_id: GitHub ID
+        github_secret: GitHub Secret
+        gitlab_id: GitLab ID
+        gitlab_secret: GitLab Secret
+        gitlab_url: GitLab URL

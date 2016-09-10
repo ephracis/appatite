@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
 
   # admin
-  get 'admin/overview'
-  get 'admin/users'
-  get 'admin/projects'
-  get 'admin/settings'
+  namespace :admin do
+    resource :application_settings, path: 'settings', only: [:show, :update]
+    get 'users', to: 'dashboard#users'
+    get 'projects', to: 'dashboard#projects'
+    root to: 'dashboard#index'
+  end
 
   # authentication
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     registrations: 'users/profile'
   }
+
   devise_scope :user do
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
@@ -18,6 +21,7 @@ Rails.application.routes.draw do
     get 'users/:id', to: 'users/profile#show', as: :user
     get 'users/:id/edit', to: 'users/profile#edit', as: :edit_user
     patch 'users/:id', to: 'users/profile#update'
+    get 'users/auth/:provider/setup', to: 'users/omniauth_callbacks#setup'
   end
 
   # resources
