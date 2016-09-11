@@ -21,15 +21,6 @@ Register your application on [Github](https://github.com/settings/developers)
 and [Gitlab](https://gitlab.com/profile/applications) to get your ID and secret.
 Set callback URL to `http://<HOSTNAME>/users/auth/gitlab/callback`.
 
-Then create the file `.env` and put in your tokens:
-
-```bash
-GITLAB_ID=...
-GITLAB_SECRET=...
-GITHUB_ID=...
-GITHUB_SECRET=...
-```
-
 ### Vagrant
 The easiest way to get everything installed is by using [Vagrant](vagrantup.com).
 Run the following command to spin up a dev machine running the app:
@@ -45,7 +36,8 @@ Run the tests:
 
 ```bash
 rubocop -aD # code linting with automatic correction
-bin/rails test # ruby unit and integration tests
+bin/rails test # run minitest (deprecated)
+bundle exec rspec --format documentation # run rspec
 ```
 
 Start the server:

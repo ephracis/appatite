@@ -14,7 +14,3 @@ The following is a short summery of the various libraries in this folder.
 ## Backends
 Code for communicating with service backends such as Gitlab and Github, allowing
 us to retrieve and push data from/to the backend.
-
-## OAuth2 Client
-Code for communicating with an OAuth2 provider. This is the base class for the
-backends and is mostly a nice wrapper around the OAuth2 gem.

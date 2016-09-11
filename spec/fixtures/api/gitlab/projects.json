@@ -1,0 +1,9 @@
+[
+  {
+    "web_url": "http://web.com/123",
+    "id": "123",
+    "path_with_namespace": "sample/project",
+    "description": "my text",
+    "star_count": "42"
+  }
+]

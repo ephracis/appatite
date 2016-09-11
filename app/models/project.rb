@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   validates :origin_id, uniqueness: { scope: :origin }
   validates :api_url, presence: true
   validates :api_url, uniqueness: true
+  validates :api_url, url: true
   belongs_to :user
 
   acts_as_followable
@@ -42,7 +43,6 @@ class Project < ApplicationRecord
   end
 
   def account_link
-    raise 'Missing user attribute' unless user
     user.account_links.find_by(provider: origin)
   end
 

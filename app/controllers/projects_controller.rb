@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: :webhook
-  before_action :set_project, only: [:show, :edit, :update]
+  before_action :set_project, only: [:edit, :update]
   skip_before_action :verify_authenticity_token, only: :webhook
 
   # GET /projects
@@ -26,18 +26,19 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # POST /projects/webhook
+  # POST /projects/webhook.json
   def webhook
-    payload = JSON.parse(request.body.read)
     if request.headers['X-GitHub-Event']
-      api_url = payload['repository']['url']
-    elsif payload['project']
-      api_url = "https://gitlab.com/api/v3/projects/#{payload['project']['id']}"
+      api_url = params[:repository][:url]
+    elsif params[:project]
+      base_url = ApplicationSetting.current.gitlab_url
+      api_url = "#{base_url}/api/v3/projects/#{params[:project][:id]}"
     else
-      render(json: { error: 'Could not recognize the request' }, status: :unprocessable_entity) && return
+      render(json: { error: 'Could not recognize the request' },
+             status: :unprocessable_entity) && return
     end
     project = Project.find_by(api_url: api_url)
-    project.receive_hook(payload) if project
+    project.receive_hook(params) if project
     if project && project.save
       ProjectChannel.broadcast_to project.user, project
       head :ok
@@ -49,11 +50,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-  end
-
-  # GET /projects/new
-  def new
-    @project = Project.new
+    @project = Project.find params[:id]
   end
 
   # GET /projects/1/edit
@@ -131,6 +128,8 @@ class ProjectsController < ApplicationController
     @project = get_project_from_collection(
       current_user.admin? ? Project : current_user.projects
     )
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def get_project_from_collection(projects)
