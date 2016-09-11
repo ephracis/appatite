@@ -14,6 +14,8 @@ Rails:
 
 Metrics/MethodLength:
   Max: 18
+  Exclude:
+    - 'app/helpers/nav_helper.rb'
 
 Metrics/ClassLength:
   Max: 150
@@ -23,16 +25,19 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Exclude:
     - 'app/controllers/projects_controller.rb'
+    - 'app/helpers/nav_helper.rb'
 
 Metrics/PerceivedComplexity:
   Exclude:
     - 'app/controllers/projects_controller.rb'
+    - 'app/helpers/nav_helper.rb'
 
 Metrics/AbcSize:
   Max: 20
   Exclude:
     - 'app/controllers/projects_controller.rb'
     - 'app/models/account_link.rb'
+    - 'app/helpers/nav_helper.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -45,3 +50,7 @@ Style/Documentation:
 
 Metrics/LineLength:
   Enabled: false
+
+Lint/AssignmentInCondition:
+  Exclude:
+    - 'app/helpers/nav_helper.rb'

@@ -28,6 +28,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
         token: 'test'
       }
     )
+    OmniAuth.config.logger = Logger.new('/dev/null')
   end
 
   test 'should create new user from github' do
@@ -40,7 +41,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Github account.'
+    assert_select 'div', 'Successfully authenticated from GitHub account.'
   end
 
   test 'should sign_in existing user from github' do
@@ -54,7 +55,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Github account.'
+    assert_select 'div', 'Successfully authenticated from GitHub account.'
   end
 
   test 'should sign_in pre-authenticated user from github' do
@@ -70,7 +71,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Github account.'
+    assert_select 'div', 'Successfully authenticated from GitHub account.'
   end
 
   test 'should create new user from gitlab' do
@@ -83,7 +84,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Gitlab account.'
+    assert_select 'div', 'Successfully authenticated from GitLab account.'
   end
 
   test 'should sign_in existing user from gitlab' do
@@ -97,7 +98,7 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Gitlab account.'
+    assert_select 'div', 'Successfully authenticated from GitLab account.'
   end
 
   test 'should sign_in pre-authenticated user from gitlab' do
@@ -113,13 +114,12 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     follow_redirect!
     assert_response :success
-    assert_select 'div', 'Successfully authenticated from Gitlab account.'
+    assert_select 'div', 'Successfully authenticated from GitLab account.'
   end
 
   test 'should redirect to login on failure' do
     OmniAuth.config.mock_auth[:gitlab] = :invalid_credentials
     get '/users/auth/gitlab'
-    OmniAuth.config.logger = Logger.new('/dev/null')
     follow_redirect!
     assert_redirected_to new_user_session_path
   end

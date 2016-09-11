@@ -34,22 +34,30 @@ class AccountLink < ApplicationRecord
 
   def load_backend
     case provider
-    when 'gitlab'
-      Appatite::Backends::Gitlab.new(
-        'https://gitlab.com',
-        ENV['GITLAB_ID'],
-        ENV['GITLAB_SECRET'],
-        token
-      )
     when 'github'
-      Appatite::Backends::Github.new(
-        'https://api.github.com',
-        ENV['GITHUB_ID'],
-        ENV['GITHUB_SECRET'],
-        token
-      )
+      load_github_backend
+    when 'gitlab'
+      load_gitlab_backend
     else
       raise "Could not find backend for provider '#{provider}'"
     end
+  end
+
+  def load_github_backend
+    Appatite::Backends::Github.new(
+      'https://api.github.com',
+      ApplicationSetting.current.github_id || ENV['GITHUB_ID'],
+      ApplicationSetting.current.github_secret || ENV['GITHUB_SECRET'],
+      token
+    )
+  end
+
+  def load_gitlab_backend
+    Appatite::Backends::Gitlab.new(
+      ApplicationSetting.current.gitlab_url || 'https://gitlab.com/api/v3',
+      ApplicationSetting.current.gitlab_id || ENV['GITLAB_ID'],
+      ApplicationSetting.current.gitlab_secret || ENV['GITLAB_SECRET'],
+      token
+    )
   end
 end

@@ -272,7 +272,7 @@ DEPENDENCIES
   rails-assets-angular2!
   rails-assets-bootstrap!
   rails-assets-fontawesome!
-  redis (~> 3.0)
+  redis (~> 3.3)
   rubocop
   sass-rails (~> 5.0)
   spring

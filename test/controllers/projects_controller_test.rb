@@ -5,7 +5,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @project = projects(:gitlab_project)
-    # request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
   test 'should not get index logged out' do
@@ -381,7 +380,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  # TODO: only admin and (owner without followers)
   test 'should destroy github project as admin' do
     @project = projects(:github_project)
     stub_request(:get, "#{@project.api_url}/hooks")
@@ -402,7 +400,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_requested :delete, "#{@project.api_url}/hooks/42"
   end
 
-  # TODO: only admin and (owner without followers)
   test 'should destroy gitlab project as admin' do
     stub_request(:get, "#{@project.api_url}/hooks")
       .to_return(body: [

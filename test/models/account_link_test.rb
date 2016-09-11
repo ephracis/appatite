@@ -70,43 +70,4 @@ class AccountLinkTest < ActiveSupport::TestCase
     assert_equal 42, link.projects[0][:id]
     assert_equal 1337, link.projects[1][:id]
   end
-
-  # test 'should raise exception on unsupported provider' do
-  #   link = AccountLink.new(provider: 'test')
-  #   assert_raises RuntimeError do
-  #     link.send(:provider_url)
-  #   end
-  # end
-
-  # test 'should send oauth request' do
-  #   OAuth2::AccessToken.any_instance.expects(:request).with(
-  #     '/test/path', headers: { 'Foo' => 'Bar' }
-  #   )
-  #   link = AccountLink.new(provider: 'gitlab')
-  #   link.request('/test/path', headers: { 'Foo' => 'Bar' })
-  # end
-
-  # test 'should send oauth head request' do
-  #   OAuth2::AccessToken.any_instance.expects(:head).with(
-  #     '/test/path', headers: { 'Foo' => 'Bar' }
-  #   )
-  #   link = AccountLink.new(provider: 'gitlab')
-  #   link.head('/test/path', headers: { 'Foo' => 'Bar' })
-  # end
-
-  # test 'should send oauth put request' do
-  #   OAuth2::AccessToken.any_instance.expects(:put).with(
-  #     '/test/path', headers: { 'Foo' => 'Bar' }
-  #   )
-  #   link = AccountLink.new(provider: 'gitlab')
-  #   link.put('/test/path', headers: { 'Foo' => 'Bar' })
-  # end
-
-  # test 'should send oauth patch request' do
-  #   OAuth2::AccessToken.any_instance.expects(:patch).with(
-  #     '/test/path', headers: { 'Foo' => 'Bar' }
-  #   )
-  #   link = AccountLink.new(provider: 'gitlab')
-  #   link.patch('/test/path', headers: { 'Foo' => 'Bar' })
-  # end
 end

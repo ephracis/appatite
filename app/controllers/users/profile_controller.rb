@@ -1,6 +1,6 @@
 class Users::ProfileController < Devise::RegistrationsController
   before_action -> { authenticate_user! force: true }
-  before_action :ensure_admin, only: :toggle_admin
+  before_action :ensure_admin!, only: :toggle_admin
   before_action :set_user
 
   # Toggle admin flag on a user

@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Log in using your Gitlab or Github account.
+- Supports both hosted Gitlab and on premise.
 - Import projects from Gitlab or Github.
-- Admin area with list of registered users.
+- Easy administration via the web interface.
 - Updates to project meta data in real time.
 - Optimized for mobile phones.
 

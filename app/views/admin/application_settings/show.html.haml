@@ -1,0 +1,67 @@
+.container
+  = form_for @application_setting, url: admin_application_settings_path do |f|
+    - if @application_setting.errors.any?
+      #error_explanation.alert.alert-danger
+        %h2
+          = pluralize(@application_setting.errors.count, "error")
+          prohibited this project from being saved:
+
+        %ul
+        - @application_setting.errors.full_messages.each do |message|
+          %li= message
+    .row
+      .col-lg-3.form-section
+        %h2 GitHub settings
+        Configure GitHub integration. Register your application
+        = link_to('here', 'https://github.com/settings/developers')+'.'
+      .col-lg-9
+        .form-group
+          .checkbox
+            = f.label :github_enabled do
+              = f.check_box :github_enabled
+              Allow users to sign in with their GitHub account.
+        .form-group
+          = f.label :github_id
+          = f.text_field :github_id, class: 'form-control'
+          %span.help-block
+            Your GitHub application ID.
+            
+        .form-group
+          = f.label :github_secret
+          = f.text_field :github_secret, class: 'form-control'
+          %span.help-block
+            Your GitHub application secret.
+    %hr
+    .row
+      .col-lg-3.form-section
+        %h2 GitLab settings
+        Configure GitLab integration. Register your application
+        = link_to('here', 'https://gitlab.com/profile/applications')
+        or at your custom domain.
+      .col-lg-9
+        .form-group
+          .checkbox
+            = f.label :gitlab_enabled do
+              = f.check_box :gitlab_enabled
+              Allow users to sign in with their GitLab account.
+        
+        .form-group
+          = f.label :gitlab_url
+          = f.url_field :gitlab_url, class: 'form-control'
+          %span.help-block
+            The URL to the GitLab service.
+        
+        .form-group
+          = f.label :gitlab_id
+          = f.text_field :gitlab_id, class: 'form-control'
+          %span.help-block
+            Your GitLab application ID.
+            
+        .form-group
+          = f.label :gitlab_secret
+          = f.text_field :gitlab_secret, class: 'form-control'
+          %span.help-block
+            Your GitLab application secret.
+
+        .actions
+          = f.submit 'Save', class: 'btn btn-primary'
