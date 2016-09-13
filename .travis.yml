@@ -7,8 +7,8 @@ before_script:
   - psql -c 'create database appatite_test;' -U postgres
   - gem install rubocop
 script:
-  - rubocop -D
-  - bin/rails test
+  - bin/rails rubocop
+  - bin/rails spec
 deploy:
   provider: heroku
   api_key:

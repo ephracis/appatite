@@ -1,0 +1,10 @@
+[
+  {
+    "config": { "url": "http://example.com/hook" },
+    "id": "123"
+  },
+  {
+    "config": { "url": "http://example.org/hook" },
+    "id": "321"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "html_url": "http://web.com/123",
+  "url": "http://api.com/123",
+  "id": "123",
+  "full_name": "sample/project",
+  "description": "my text",
+  "watchers": "42"
+}

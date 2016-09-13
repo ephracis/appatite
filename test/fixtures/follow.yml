@@ -1,6 +1,0 @@
-alice_follows_github_project:
-  follower: alice (User)
-  followable: github_project (Project)
-alice_follows_gitlab_project:
-  follower: alice (User)
-  followable: gitlab_project (Project)

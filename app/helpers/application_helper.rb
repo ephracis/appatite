@@ -34,6 +34,6 @@ module ApplicationHelper
   # When no users are created, we allow any visitor to
   # access administrative controls.
   def admin?
-    User.count.zero? || (current_user && current_user.admin?)
+    User.count.zero? || (current_user.present? && current_user.admin?)
   end
 end

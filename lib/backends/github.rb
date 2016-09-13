@@ -1,7 +1,5 @@
-require 'oauth2_client'
-
 module Appatite::Backends
-  class Github < ::Appatite::Oauth2Client
+  class Github < Base
     def projects
       JSON.parse(get('/user/repos').body).map do |project|
         {
@@ -10,7 +8,7 @@ module Appatite::Backends
           id: project['id'],
           name: project['full_name'],
           description: project['description'],
-          followers: project['watchers'],
+          followers: project['watchers'].to_i,
           origin: :github
         }
       end
@@ -23,7 +21,9 @@ module Appatite::Backends
         name: project['full_name'],
         description: project['description']
       }
-      data[:state] = statuses[0]['state'] if statuses.length.positive?
+      if statuses.length.positive?
+        data[:state] = translate_state(statuses[0]['state'])
+      end
       data
     end
 

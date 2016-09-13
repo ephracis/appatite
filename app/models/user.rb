@@ -9,12 +9,7 @@ class User < ApplicationRecord
 
   acts_as_follower
 
-  def self.new_with_session(params, session)
-    super.tap do |_user|
-    end
-  end
-
   def admin?
-    is_admin
+    is_admin == true
   end
 end

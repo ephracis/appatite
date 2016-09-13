@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   end
 
   # resources
-  resources :projects do
+  resources :projects, except: :new do
     get 'setup', on: :collection
     post 'webhook', on: :collection
   end

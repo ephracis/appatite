@@ -1,7 +1,5 @@
-require 'oauth2_client'
-
 module Appatite::Backends
-  class Gitlab < ::Appatite::Oauth2Client
+  class Gitlab < Base
     def projects
       JSON.parse(get('/api/v3/projects').body).map do |project|
         {
@@ -10,7 +8,7 @@ module Appatite::Backends
           id: project['id'],
           name: project['path_with_namespace'],
           description: project['description'],
-          followers: project['star_count'],
+          followers: project['star_count'].to_i,
           origin: :gitlab
         }
       end
@@ -24,7 +22,7 @@ module Appatite::Backends
         description: project['description']
       }
       if builds.length.positive?
-        retval[:state] = builds[0]['status']
+        retval[:state] = translate_status(builds[0]['status'])
         retval[:coverage] = builds[0]['coverage']
       end
       retval
@@ -49,7 +47,7 @@ module Appatite::Backends
         name: payload['project']['path_with_namespace'],
         description: payload['project']['description']
       }
-      if payload['builds'].length.positive?
+      if payload['builds'] && payload['builds'].length.positive?
         parsed_data[:build_state] = translate_status(payload['builds'][0]['status'])
       end
       parsed_data
