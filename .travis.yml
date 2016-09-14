@@ -9,6 +9,7 @@ before_script:
 script:
   - bin/rails rubocop
   - bin/rails spec
+  - bin/rails teaspoon
 deploy:
   provider: heroku
   api_key:

@@ -1,4 +1,4 @@
-@app.controller 'ProjectsCtrl', ['$scope', '$http', ($scope, $http) ->
+@app.controller 'ProjectsCtrl', ['$scope', '$http', '$log', ($scope, $http, $log) ->
   $scope.projects = {}
   $scope.activateProject = ($origin, $id, $api_url) ->
     $scope.projects["#{$origin}-#{$id}"]['state'] = 'activating'
@@ -9,7 +9,7 @@
       successCallback = (response) ->
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'active'
       , failureCallback = (response) ->
-        console.log response.data['error']
+        $log.error response.data['error']
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'inactive'
     )
 
@@ -22,15 +22,17 @@
       successCallback = (response) ->
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'inactive'
       , failureCallback = (response) ->
-        console.log response.data['error']
+        $log.error response.data['error']
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'active'
     )
-  
-  App.cable.subscriptions.create "ProjectChannel",
-    received: (data) ->
+
+  $scope.receiveCableData = (data) ->
       uniq_id = "#{data['origin']}-#{data['origin_id']}"
       $scope.projects[uniq_id]['name'] = data['name']
       $scope.projects[uniq_id]['build_state'] = data['build_state']
       $scope.projects[uniq_id]['coverage'] = data['coverage'] || 0
       $scope.$apply()
+  
+  App.cable.subscriptions.create "ProjectChannel",
+    received: $scope.receiveCableData
 ]

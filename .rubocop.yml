@@ -5,6 +5,7 @@ AllCops:
     - 'tmp/**/*'
     - 'test/fixtures/**/*'
     - 'db/**/*'
+    - 'spec/teaspoon_env.rb'
     - 'config/**/*'
     - 'config.ru'
   TargetRubyVersion: 2.3

@@ -58,6 +58,10 @@ group :development, :test do
 
   # Use RSpec for unit testing
   gem 'rspec-rails'
+
+  # Use Teaspoon for Javascript testing
+  gem 'teaspoon-jasmine'
+  gem 'phantomjs'
 end
 
 group :development do
@@ -73,8 +77,11 @@ group :test do
   # Use CodeClimate for coverage and static analysis
   gem 'codeclimate-test-reporter', require: nil
 
-  # Use Rubocop for style checks
+  # Style checks for Ruby, Coffeescript, HAML, YAML
   gem 'rubocop', require: false
+  gem 'coffeelint'
+  gem 'haml_lint'
+  gem 'yamllint'
 
   # Use WebMock to stub web request
   gem 'webmock'
@@ -102,4 +109,7 @@ source 'https://rails-assets.org' do
 
   # Use FontAwesome for icons
   gem 'rails-assets-fontawesome'
+
+  # We need to test AngularJS code
+  gem 'rails-assets-angular-mocks'
 end
