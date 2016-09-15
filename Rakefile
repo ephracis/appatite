@@ -3,13 +3,14 @@
 
 require 'rubocop/rake_task'
 require_relative 'config/application'
-require 'rubocop/rake_task'
-require 'haml_lint/rake_task'
-require 'yamllint/rake_task'
 
 Rails.application.load_tasks
 
 unless Rails.env.production?
+  require 'rubocop/rake_task'
+  require 'haml_lint/rake_task'
+  require 'yamllint/rake_task'
+
   RuboCop::RakeTask.new
 
   HamlLint::RakeTask.new do |t|
