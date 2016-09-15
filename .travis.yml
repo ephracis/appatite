@@ -5,7 +5,6 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database appatite_test;' -U postgres
-  - gem install rubocop
 script:
   - bin/rails rubocop
   - bin/rails teaspoon
