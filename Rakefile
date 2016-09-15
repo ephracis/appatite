@@ -6,7 +6,7 @@ require_relative 'config/application'
 
 Rails.application.load_tasks
 
-unless Rails.env.production?
+begin
   require 'rubocop/rake_task'
   require 'haml_lint/rake_task'
   require 'yamllint/rake_task'
@@ -27,4 +27,6 @@ unless Rails.env.production?
   task lint: %w(rubocop yamllint)
 
   task default: [:lint, :test]
+rescue LoadError
+  puts 'WARNING: Could not load test libraries, perhaps we are in production?'
 end
