@@ -70,6 +70,13 @@ describe Appatite::Backends::Github, type: :lib do
         expect(backend.get_project(1)[:state]).to eq('failed')
       end
 
+      it "should parse build state 'error' as 'failed'" do
+        expect(backend).to receive(:get)
+          .with('repos/sample/project/statuses/HEAD')
+          .and_return(json_response([{ state: 'error' }]))
+        expect(backend.get_project(1)[:state]).to eq('failed')
+      end
+
       it "should parse build state 'success'" do
         expect(backend).to receive(:get)
           .with('repos/sample/project/statuses/HEAD')

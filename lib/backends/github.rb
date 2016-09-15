@@ -60,7 +60,7 @@ module Appatite::Backends
       case state
       when 'pending' then 'running'
       when 'success' then 'success'
-      when 'failed' then 'failed'
+      when 'failed', 'error' then 'failed'
       else 'unknown'
       end
     end

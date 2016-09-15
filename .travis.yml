@@ -8,8 +8,8 @@ before_script:
   - gem install rubocop
 script:
   - bin/rails rubocop
-  - bin/rails spec
   - bin/rails teaspoon
+  - bin/rails spec
 deploy:
   provider: heroku
   api_key:
