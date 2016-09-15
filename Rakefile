@@ -9,19 +9,21 @@ require 'yamllint/rake_task'
 
 Rails.application.load_tasks
 
-RuboCop::RakeTask.new
+unless Rails.env.production?
+  RuboCop::RakeTask.new
 
-HamlLint::RakeTask.new do |t|
-  # t.config = 'path/to/custom/haml-lint.yml'
-  t.files = %w(app/views/**/*.haml)
-  # t.quiet = true # Don't display output from haml-lint
+  HamlLint::RakeTask.new do |t|
+    # t.config = 'path/to/custom/haml-lint.yml'
+    t.files = %w(app/views/**/*.haml)
+    # t.quiet = true # Don't display output from haml-lint
+  end
+
+  YamlLint::RakeTask.new do |t|
+    t.paths = %w(**/*.yaml **/*.yml)
+  end
+
+  desc 'Run code style checks'
+  task lint: %w(rubocop yamllint)
+
+  task default: [:lint, :test]
 end
-
-YamlLint::RakeTask.new do |t|
-  t.paths = %w(**/*.yaml **/*.yml)
-end
-
-desc 'Run code style checks'
-task lint: %w(rubocop yamllint)
-
-task default: [:lint, :test]
