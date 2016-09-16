@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   after_action :set_csrf_cookie_for_ng
+  before_action :set_raven_context
 
   # Ensure that AJAX requests carry the authenticity token
   def set_csrf_cookie_for_ng
@@ -35,5 +36,18 @@ class ApplicationController < ActionController::Base
   # Extend the CSRF verification to allow AJAX calls
   def verified_request?
     super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
+  end
+
+  private
+
+  def set_raven_context
+    return if Rails.env.test?
+    context = {}
+    unless current_user.blank?
+      context[:user_id] = current_user.id
+      context[:email] = current_user.email
+    end
+    Raven.user_context(context)
+    Raven.extra_context(params: params.to_hash, url: request.url)
   end
 end

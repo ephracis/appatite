@@ -30,7 +30,8 @@ Rails.application.routes.draw do
     post 'webhook', on: :collection
   end
 
-  # static
+  # root
   get '/pricing', to: 'static#pricing'
+  get '/crash', to: 'static#crash'
   root to: 'static#index'
 end
