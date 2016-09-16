@@ -27,7 +27,8 @@ class Admin::ApplicationSettingsController < Admin::ApplicationController
       :gitlab_secret,
       :github_enabled,
       :github_id,
-      :github_secret
+      :github_secret,
+      :ga_tracking
     )
   end
 end
