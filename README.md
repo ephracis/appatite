@@ -14,12 +14,21 @@ This is the project for the [Appatite website](http://appatite.herokuapp.com).
 ## Get started
 
 ### Configuration
+#### Authentication
 To enable signing in with Github or Gitlab you need to register an app
 with those providers and save your ID and secret in the configuration file.
 
 Register your application on [Github](https://github.com/settings/developers)
 and [Gitlab](https://gitlab.com/profile/applications) to get your ID and secret.
-Set callback URL to `http://<HOSTNAME>/users/auth/gitlab/callback`.
+Set callback URL to `https://<HOSTNAME>/users/auth/gitlab/callback`.
+
+#### Sentry
+If you want to use Sentry to track app crashes and errors you need to add a line
+like the following to the file `.env`:
+
+```
+SENTRY_DSN=https://8fc8bddc8a5546e4bc0651338590b11c:33fa5b53c6cc4e93a1a16eb040e9f9bd@sentry.io/99408
+```
 
 ### Vagrant
 The easiest way to get everything installed is by using [Vagrant](vagrantup.com).

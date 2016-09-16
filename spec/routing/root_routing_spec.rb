@@ -8,4 +8,8 @@ describe StaticController, 'routing' do
   it 'to #pricing' do
     expect(get('/pricing')).to route_to('static#pricing')
   end
+
+  it 'to #crash' do
+    expect(get('/crash')).to route_to('static#crash')
+  end
 end
