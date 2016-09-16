@@ -27,7 +27,7 @@ If you want to use Sentry to track app crashes and errors you need to add a line
 like the following to the file `.env`:
 
 ```
-SENTRY_DSN=https://8fc8bddc8a5546e4bc0651338590b11c:33fa5b53c6cc4e93a1a16eb040e9f9bd@sentry.io/99408
+SENTRY_DSN=https://XXXX:XXXX@sentry.io/XXXX
 ```
 
 ### Vagrant
