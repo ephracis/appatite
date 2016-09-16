@@ -35,3 +35,4 @@ en:
         gitlab_id: GitLab ID
         gitlab_secret: GitLab Secret
         gitlab_url: GitLab URL
+        ga_tracking: Google Analytics ID

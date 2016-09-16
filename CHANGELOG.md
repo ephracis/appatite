@@ -12,5 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Easy administration via the web interface.
 - Updates to project meta data in real time.
 - Optimized for mobile phones.
+- Support for Google Analytics.
 
 [Unreleased]: https://github.com/ephracis/appatite/compare/8c736d6...HEAD

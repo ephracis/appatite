@@ -62,6 +62,19 @@
           = f.text_field :gitlab_secret, class: 'form-control'
           %span.help-block
             Your GitLab application secret.
+    %hr
+    .row
+      .col-lg-3.form-section
+        %h2 Tracking
+        Configure tracking of the users and visitors of the
+        web app.
+
+      .col-lg-9
+        .form-group
+          = f.label :ga_tracking
+          = f.text_field :ga_tracking, class: 'form-control', placeholder: 'UA-XXXXXXXX-X'
+          %span.help-block
+            The Universal Analytics tracking code for your Google Analytics property.
 
         .actions
           = f.submit 'Save', class: 'btn btn-primary'
