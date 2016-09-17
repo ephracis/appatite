@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_raven_context
-    return if Rails.env.test?
+    return unless Rails.env.production?
     context = {}
     unless current_user.blank?
       context[:user_id] = current_user.id

@@ -39,6 +39,14 @@ describe Users::ProfileController, 'routing' do
     expect(get('/users/1')).to route_to('users/profile#show', id: '1')
   end
 
+  it 'to #projects' do
+    expect(get('/users/1/projects')).to route_to('users/profile#projects', id: '1')
+  end
+
+  it 'to #activity' do
+    expect(get('/users/1/activity')).to route_to('users/profile#activity', id: '1')
+  end
+
   it 'to #edit' do
     expect(get('/users/1/edit')).to route_to('users/profile#edit', id: '1')
   end

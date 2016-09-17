@@ -9,7 +9,7 @@
           #error_explanation.alert.alert-danger
             %h2
               = pluralize(@user.errors.count, "error")
-              prohibited this project from being saved:
+              prohibited this user from being saved:
 
             %ul
             - project.errors.full_messages.each do |message|
@@ -32,10 +32,28 @@
             Let people recognize you by telling us your name.
             
         .form-group
+          = f.label :nickname
+          = f.text_field :nickname, class: 'form-control'
+          %span.help-block
+            Tell us your Internet name.
+            
+        .form-group
           = f.label :email
           = f.text_field :email, class: 'form-control'
           %span.help-block
             We use your email for finding commits that belong to you.
+            
+        .form-group
+          = f.label :website
+          = f.url_field :website, class: 'form-control'
+          %span.help-block
+            The address to your website if you have one.
+            
+        .form-group
+          = f.label :location
+          = f.text_field :location, class: 'form-control'
+          %span.help-block
+            The place where you spend most of your time.
 
         .actions
           = f.submit class: 'btn btn-primary'

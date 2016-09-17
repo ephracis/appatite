@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :projects
 
   validates :email, uniqueness: true
+  validates :nickname, uniqueness: { case_sensitive: false }
 
   acts_as_follower
 

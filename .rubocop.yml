@@ -20,8 +20,6 @@ Metrics/MethodLength:
 
 Metrics/ClassLength:
   Max: 150
-  Exclude:
-    - 'test/**/*'
 
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -51,7 +49,3 @@ Style/Documentation:
 
 Metrics/LineLength:
   Enabled: false
-
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'app/helpers/nav_helper.rb'

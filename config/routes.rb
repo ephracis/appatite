@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     patch 'users/:id/toggle_admin', to: 'users/profile#toggle_admin', as: :toggle_admin
     get 'users/:id', to: 'users/profile#show', as: :user
     get 'users/:id/edit', to: 'users/profile#edit', as: :edit_user
+    get 'users/:id/activity', to: 'users/profile#activity', as: :user_activity
+    get 'users/:id/projects', to: 'users/profile#projects', as: :user_projects
     patch 'users/:id', to: 'users/profile#update'
     get 'users/auth/:provider/setup', to: 'users/omniauth_callbacks#setup'
   end

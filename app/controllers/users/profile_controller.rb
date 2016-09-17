@@ -1,7 +1,9 @@
 class Users::ProfileController < Devise::RegistrationsController
-  before_action -> { authenticate_user! force: true }
+  before_action -> { authenticate_user! force: true },
+                except: [:show, :projects, :activity]
   before_action :ensure_admin!, only: :toggle_admin
   before_action :set_user
+  layout 'profile', except: :edit
 
   # Toggle admin flag on a user
   def toggle_admin
@@ -15,6 +17,15 @@ class Users::ProfileController < Devise::RegistrationsController
   end
 
   def show
+  end
+
+  def activity
+  end
+
+  def info
+  end
+
+  def projects
   end
 
   def edit
@@ -39,7 +50,7 @@ class Users::ProfileController < Devise::RegistrationsController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     params.require(:user).permit(
-      :name, :image, :email
+      :name, :image, :email, :nickname, :location, :website
     )
   end
 end
