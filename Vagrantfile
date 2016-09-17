@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
      set -e
      update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
      apt-get update
-     apt-get install -y postgresql postgresql-contrib curl libpq-dev
+     apt-get install -y postgresql postgresql-contrib curl libpq-dev git phantomjs
      set +e
      su - postgres -c 'createuser vagrant -s; createuser root -s'
      set -e
