@@ -1,0 +1,37 @@
+- content_for :content do
+  .container{ ng: { controller: 'ProfileCtrl' } }
+    .row
+      .col-sm-3
+        .text-center
+          = avatar_for @user
+          %h4= @user.name
+          .lead= @user.nickname || 'Anonymous'
+        .panel.panel-primary
+          .panel-heading
+            Basic info
+          %ul.list-group
+            %li.list-group-item
+              %span.fa.fa-fw.fa-map-marker
+              = @user.location || 'Unknown location'
+            %li.list-group-item
+              %span.fa.fa-fw.fa-calendar
+              Joined #{time_ago_in_words @user.created_at} ago
+            %li.list-group-item
+              %span.fa.fa-fw.fa-link
+              = @user.website || 'No website'
+          - if admin? or @user == current_user
+            .panel-footer
+              = link_to 'Edit profile', edit_user_path(@user), class: 'btn btn-default'
+      .col-sm-9
+        %ul.nav.nav-pills
+          = nav_link(action: :show) do
+            = link_to 'Overview', user_path(@user)
+          = nav_link(action: :projects) do
+            = link_to user_projects_path(@user) do
+              Projects
+              .badge= @user.following_projects_count
+          = nav_link(action: :activity) do
+            = link_to 'Activity', user_activity_path(@user)
+        = yield
+
+= render template: 'layouts/application'

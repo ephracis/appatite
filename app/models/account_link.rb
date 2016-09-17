@@ -10,8 +10,11 @@ class AccountLink < ApplicationRecord
   def self.from_omniauth(auth)
     l = where(provider: auth.provider, uid: auth.uid).first_or_create do |link|
       link.user = User.where(email: auth.info.email).first_or_create do |user|
-        user.name = auth.info.name unless user.name
-        user.image = auth.info.image unless user.image
+        user.name = auth.info.name
+        user.image = auth.info.image
+        user.nickname = auth.info.nickname
+        user.location = auth.info.location
+        user.website = auth.info.urls.values.first if auth.info.urls.present?
       end
     end
 

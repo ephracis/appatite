@@ -19,12 +19,17 @@ describe AccountLink, type: :model do
         info: {
           email: 'test@mail.com',
           name: 'Mr Test',
-          image: 'test.jpg'
+          nickname: 'sweetbrah42',
+          image: 'test.jpg',
+          location: 'Stockholm',
+          urls: {
+            Blog: 'http://blog.io'
+          }
         },
         credentials: {
           token: 'secret'
         }
-      }.to_json, object_class: OpenStruct)
+      }.to_json, object_class: OmniAuth::AuthHash)
     end
 
     it 'should create user and link' do
@@ -32,6 +37,9 @@ describe AccountLink, type: :model do
       expect(link).to be_valid
       expect(link.uid).to eq 'test'
       expect(link.user.name).to eq 'Mr Test'
+      expect(link.user.nickname).to eq 'sweetbrah42'
+      expect(link.user.location).to eq 'Stockholm'
+      expect(link.user.website).to eq 'http://blog.io'
       expect(link.user.email).to eq 'test@mail.com'
     end
 

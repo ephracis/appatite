@@ -18,7 +18,7 @@ describe 'admin/dashboard/index' do
   end
 
   it 'should display list of recent projects' do
-    assign(:recent_projects, [create(:user, name: 'A Test Repo')])
+    assign(:recent_projects, [create(:project, name: 'A Test Repo')])
     render
     expect(rendered).to match 'A Test Repo'
   end
