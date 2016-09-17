@@ -12,13 +12,14 @@
           %ul.list-group
             %li.list-group-item
               %span.fa.fa-fw.fa-map-marker
-              = @user.location || 'All over the place'
+              = @user.location.present? ? @user.location : 'All over the place'
             %li.list-group-item
               %span.fa.fa-fw.fa-calendar
               Joined #{time_ago_in_words @user.created_at} ago
-            %li.list-group-item
-              %span.fa.fa-fw.fa-link
-              = @user.website || 'No website'
+            - if @user.website.present?
+              %li.list-group-item
+                %span.fa.fa-fw.fa-link
+                = @user.website || 'No website'
           - if admin? or @user == current_user
             .panel-footer
               = link_to 'Edit profile', edit_user_path(@user), class: 'btn btn-default'
