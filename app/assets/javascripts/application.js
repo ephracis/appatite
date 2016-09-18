@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require bootstrap
 //= require angular2
+//= require angular-fullscreen
 //= require_tree .
