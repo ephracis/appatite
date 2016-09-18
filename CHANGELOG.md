@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Import projects from Gitlab or Github.
 - Easy administration via the web interface.
 - Updates to project meta data in real time.
-- Optimized for mobile phones.
+- Optimized for mobile phones and wall-mounted screens.
 - Track visitors and page views with [Google Analytics](https://analytics.google.com).
 - Track crashes and errors with [Sentry](https://sentry.io).
 

@@ -44,7 +44,7 @@ gem 'oauth2'
 
 # Allow users to follow projects
 # TODO: currently need to fetch from github to get Rails 5 support
-gem 'acts_as_follower', github: 'tcocca/acts_as_follower'
+gem 'acts_as_follower', git: 'https://github.com/tcocca/acts_as_follower.git'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -115,4 +115,7 @@ source 'https://rails-assets.org' do
 
   # We need to test AngularJS code
   gem 'rails-assets-angular-mocks'
+
+  # Allow us to go fullscreen with a button
+  gem 'rails-assets-angular-fullscreen'
 end

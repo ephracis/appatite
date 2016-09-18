@@ -2,16 +2,17 @@ language: ruby
 rvm:
 - 2.3.1
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'create database appatite_test;' -U postgres
+- psql -c 'create database appatite_test;' -U postgres
 cache:
+  bundler: true
   directories:
   - $HOME/.phantomjs
 script:
-  - bin/rails rubocop
-  - bin/rails teaspoon
-  - bin/rails spec
+- bin/rails rubocop
+- bin/rails teaspoon
+- bin/rails spec
 deploy:
   provider: heroku
   api_key:

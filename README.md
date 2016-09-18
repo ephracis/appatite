@@ -13,22 +13,7 @@ This is the project for the [Appatite website](http://appatite.herokuapp.com).
 
 ## Get started
 
-### Configuration
-#### Authentication
-To enable signing in with Github or Gitlab you need to register an app
-with those providers and save your ID and secret in the configuration file.
-
-Register your application on [Github](https://github.com/settings/developers)
-and [Gitlab](https://gitlab.com/profile/applications) to get your ID and secret.
-Set callback URL to `https://<HOSTNAME>/users/auth/gitlab/callback`.
-
-#### Sentry
-If you want to use Sentry to track app crashes and errors you need to add a line
-like the following to the file `.env`:
-
-```
-SENTRY_DSN=https://XXXX:XXXX@sentry.io/XXXX
-```
+If you want to run Appatite on your own machine, follow these instructions.
 
 ### Vagrant
 The easiest way to get everything installed is by using [Vagrant](vagrantup.com).
@@ -44,14 +29,14 @@ You can now access the machine:
 Run the tests:
 
 ```bash
-rubocop -aD # code linting with automatic correction
-bin/rails test # run minitest (deprecated)
-bundle exec rspec --format documentation # run rspec
+bin/rails rubocop  # lint ruby code
+bin/rails spec     # test ruby code
+bin/rails teaspoon # test javascript code
 ```
 
 Start the server:
 
-    bin/rails server
+    bin/rails server -b 0.0.0.0
 
 You can now access the app on http://localhost:3000.
 
@@ -100,3 +85,24 @@ Create the database
 
 That's it! You can now run the tests and start the server just as described
 above in the *Vagrant* section.
+
+### Configuration
+#### Authentication
+To enable signing in with GitHub or GitLab you need to register an app
+with those providers.
+
+Register your application on [Github](https://github.com/settings/developers)
+and [Gitlab](https://gitlab.com/profile/applications) to get your ID and secret.
+Set callback URL to `https://<HOSTNAME>/users/auth/gitlab/callback`.
+
+Enter the credentials on the settings page in the admin area.
+
+#### Crash reports
+If you want to use Sentry to track app crashes and errors you need to add a line
+like the following to the file `.env`:
+
+```
+SENTRY_DSN=https://XXXX:XXXX@sentry.io/XXXX
+```
+
+Restart the app after changing this file.
