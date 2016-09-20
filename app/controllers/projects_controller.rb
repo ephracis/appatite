@@ -38,8 +38,8 @@ class ProjectsController < ApplicationController
              status: :unprocessable_entity) && return
     end
     project = Project.find_by(api_url: api_url)
-    project.receive_hook(params) if project
-    if project && project.save
+    project&.receive_hook(params)
+    if project&.save
       ProjectChannel.broadcast_to project.user, project
       head :ok
     else

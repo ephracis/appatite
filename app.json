@@ -1,0 +1,53 @@
+{
+  "name": "appatite",
+  "description": "A shiny way to view your projects",
+  "scripts": {
+    "postdeploy": "bin/rails db:migrate"
+  },
+  "env": {
+    "GITHUB_ID": {
+      "required": true
+    },
+    "GITHUB_SECRET": {
+      "required": true
+    },
+    "GITLAB_ID": {
+      "required": true
+    },
+    "GITLAB_SECRET": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1
+    },
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}

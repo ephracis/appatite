@@ -18,19 +18,17 @@ class ApplicationController < ActionController::Base
   end
 
   def admin?
-    User.count.zero? || (current_user && current_user.admin?)
+    User.count.zero? || (current_user&.admin?)
   end
 
   protected
 
   # Ensure that the user is signed in and admin
   def ensure_admin!
-    unless admin?
-      respond_to do |format|
-        format.html { render_404 }
-        format.json { render json: { error: 'You need to be admin' }, status: :forbidden }
-      end
-    end
+    respond_to do |format|
+      format.html { render_404 }
+      format.json { render json: { error: 'You need to be admin' }, status: :forbidden }
+    end unless admin?
   end
 
   # Extend the CSRF verification to allow AJAX calls

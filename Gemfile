@@ -105,7 +105,7 @@ end
 # Gemified versions of Bower packages for frontend
 source 'https://rails-assets.org' do
   # Use bootstrap for UI components
-  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-bootstrap-sass'
 
   # Use AngularJS for app logic
   gem 'rails-assets-angular2'
