@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap
+//= require bootstrap-sass
 //= require angular2
 //= require angular-fullscreen
 //= require_tree .

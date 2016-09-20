@@ -1,4 +1,4 @@
-.text-center.hide-fullscreen
+.text-center.hidden-fullscreen
   %h1 Projects
   .lead Here is an overview of your active projects
 
@@ -47,5 +47,5 @@
           .label.label-test.label-test-100{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 90" }}
             {{projects['#{uniq_id}']['coverage']}}%
 
-.text-center.hide-fullscreen
+.text-center.hidden-fullscreen
   = link_to 'Setup Projects', setup_projects_path, class: 'btn btn-default'
