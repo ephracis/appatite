@@ -17,15 +17,11 @@ module Appatite::Backends
     def get_project(url)
       project = JSON.parse(get(url).body)
       builds = JSON.parse(get("/api/v3/projects/#{project['id']}/builds").body)
-      retval = {
-        name: project['path_with_namespace'],
-        description: project['description']
-      }
-      if builds.length.positive?
-        retval[:state] = translate_status(builds[0]['status'])
-        retval[:coverage] = builds[0]['coverage']
-      end
-      retval
+      commits = JSON.parse(get("/api/v3/projects/#{project['id']}/commits").body)
+      data = parse_project project
+      parse_builds data, builds
+      data[:commits] = parse_commits commits
+      data
     end
 
     def create_webhook(project_url, hook_url)
@@ -61,6 +57,33 @@ module Appatite::Backends
       when 'failed' then 'failed'
       when 'success' then 'success'
       else 'unknown'
+      end
+    end
+
+    def parse_project(project)
+      {
+        name: project['path_with_namespace'],
+        description: project['description']
+      }
+    end
+
+    def parse_builds(data, builds)
+      data[:state] = translate_status(builds[0]['status']) if builds.length.positive?
+      data[:coverage] = builds[0]['coverage'] if builds.length.positive?
+    end
+
+    def parse_commits(commits)
+      return unless commits && commits.length.positive?
+      commits.map do |commit|
+        {
+          sha: commit['id'],
+          message: commit['message'],
+          created_at: commit['created_at'],
+          user: {
+            email: commit['author_email'],
+            name: commit['author_name']
+          }
+        }
       end
     end
   end

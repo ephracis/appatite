@@ -4,6 +4,7 @@ describe User, type: :model do
   describe 'associations' do
     it { is_expected.to have_many(:account_links) }
     it { is_expected.to have_many(:projects) }
+    it { is_expected.to have_many(:commits) }
   end
 
   describe 'validations' do

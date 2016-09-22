@@ -17,13 +17,10 @@ module Appatite::Backends
     def get_project(url)
       project = JSON.parse(get(url).body)
       statuses = JSON.parse(get("repos/#{project['full_name']}/statuses/HEAD").body)
-      data = {
-        name: project['full_name'],
-        description: project['description']
-      }
-      if statuses.length.positive?
-        data[:state] = translate_state(statuses[0]['state'])
-      end
+      commits = JSON.parse(get("repos/#{project['full_name']}/commits").body)
+      data = parse_project project
+      data[:state] = translate_state(statuses[0]['state']) if statuses.length.positive?
+      data[:commits] = parse_commits commits
       data
     end
 
@@ -62,6 +59,29 @@ module Appatite::Backends
       when 'success' then 'success'
       when 'failed', 'error' then 'failed'
       else 'unknown'
+      end
+    end
+
+    def parse_project(project)
+      {
+        name: project['full_name'],
+        description: project['description']
+      }
+    end
+
+    def parse_commits(commits)
+      return unless commits && commits.length.positive?
+      commits.map do |commit|
+        {
+          sha: commit['sha'],
+          message: commit['commit']['message'],
+          user: {
+            email: commit['commit']['author']['email'],
+            name: commit['commit']['author']['name'],
+            nickname: commit['author']['login'],
+            image: commit['author']['avatar_url']
+          }
+        }
       end
     end
   end

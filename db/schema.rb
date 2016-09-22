@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917061917) do
+ActiveRecord::Schema.define(version: 20160924161511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 20160917061917) do
     t.string   "ga_tracking"
   end
 
+  create_table "commits", force: :cascade do |t|
+    t.string   "sha"
+    t.string   "message"
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_commits_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_commits_on_user_id", using: :btree
+  end
+
   create_table "follows", force: :cascade do |t|
     t.string   "followable_type",                 null: false
     t.integer  "followable_id",                   null: false
@@ -57,14 +68,15 @@ ActiveRecord::Schema.define(version: 20160917061917) do
     t.string   "name"
     t.integer  "coverage"
     t.string   "build_state"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "origin"
     t.integer  "user_id"
     t.string   "description"
     t.boolean  "active"
     t.integer  "origin_id"
     t.string   "api_url"
+    t.datetime "refreshed_at"
     t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
 
@@ -87,5 +99,7 @@ ActiveRecord::Schema.define(version: 20160917061917) do
   end
 
   add_foreign_key "account_links", "users"
+  add_foreign_key "commits", "projects"
+  add_foreign_key "commits", "users"
   add_foreign_key "projects", "users"
 end

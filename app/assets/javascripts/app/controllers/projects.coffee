@@ -25,14 +25,4 @@
         $log.error response.data['error']
         $scope.projects["#{$origin}-#{$id}"]['state'] = 'active'
     )
-
-  $scope.receiveCableData = (data) ->
-      uniq_id = "#{data['origin']}-#{data['origin_id']}"
-      $scope.projects[uniq_id]['name'] = data['name']
-      $scope.projects[uniq_id]['build_state'] = data['build_state']
-      $scope.projects[uniq_id]['coverage'] = data['coverage'] || 0
-      $scope.$apply()
-  
-  App.cable.subscriptions.create "ProjectChannel",
-    received: $scope.receiveCableData
 ]

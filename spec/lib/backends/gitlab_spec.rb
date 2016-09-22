@@ -11,14 +11,9 @@ describe Appatite::Backends::Gitlab, type: :lib do
     )
   end
 
-  let(:projects_response) { json_response_file('api/gitlab/projects.json') }
-  let(:project_response) { json_response_file('api/gitlab/project.json') }
-  let(:builds_response) { json_response '[]' }
-  let(:hooks_response) { json_response_file('api/gitlab/hooks.json') }
-
   describe '#projects' do
     it 'should make get request to gitlab api' do
-      allow(backend).to receive(:get).and_return projects_response
+      allow(backend).to receive(:get).and_return response('projects')
       expect(backend.projects.length).to eq(1)
       expect(backend.projects[0][:url]).to eq('http://web.com/123')
       expect(backend.projects[0][:api_url]).to eq(
@@ -34,9 +29,11 @@ describe Appatite::Backends::Gitlab, type: :lib do
   describe '#get_project' do
     before do
       allow(backend).to receive(:get)
-        .with(1).and_return(project_response)
+        .with(1).and_return(response('project'))
       allow(backend).to receive(:get)
-        .with('/api/v3/projects/123/builds').and_return(builds_response)
+        .with('/api/v3/projects/123/builds').and_return(json_response('[]'))
+      allow(backend).to receive(:get)
+        .with('/api/v3/projects/123/commits').and_return(response('commits'))
     end
 
     it 'should parse name' do
@@ -45,6 +42,14 @@ describe Appatite::Backends::Gitlab, type: :lib do
 
     it 'should parse description' do
       expect(backend.get_project(1)[:description]).to eq('my text')
+    end
+
+    it 'should parse commits' do
+      expected = JSON.parse(response('commits').body)
+      actual = backend.get_project(1)[:commits]
+      expect(actual.length).to eq(expected.length)
+      expect(actual[0][:sha]).to eq(expected[0]['id'])
+      expect(actual[0][:user][:email]).to eq(expected[0]['author_email'])
     end
 
     context "when project doesn't have builds" do
@@ -96,7 +101,6 @@ describe Appatite::Backends::Gitlab, type: :lib do
       it 'should parse code coverage' do
         expect(backend).to receive(:get).with('/api/v3/projects/123/builds')
           .and_return(json_response([{ status: 'running', coverage: 42 }]))
-
         expect(backend.get_project(1)[:coverage]).to eq(42)
       end
     end
@@ -115,7 +119,7 @@ describe Appatite::Backends::Gitlab, type: :lib do
   describe '#delete_webhook' do
     before do
       expect(backend).to receive(:get).with('project-url/hooks')
-        .and_return(hooks_response)
+        .and_return(response('hooks'))
     end
 
     context 'when webhook exists' do
@@ -145,9 +149,9 @@ describe Appatite::Backends::Gitlab, type: :lib do
 
     before do
       allow(backend).to receive(:get)
-        .with(1).and_return(project_response)
+        .with(1).and_return(response('project'))
       allow(backend).to receive(:get)
-        .with('/api/v3/projects/123/builds').and_return(builds_response)
+        .with('/api/v3/projects/123/builds').and_return(json_response('[]'))
     end
 
     it 'should parse project name' do
@@ -178,5 +182,9 @@ describe Appatite::Backends::Gitlab, type: :lib do
         expect(backend.receive_webhook(payload)[:build_state]).to eq('running')
       end
     end
+  end
+
+  def response(file)
+    json_response_file "api/gitlab/#{file}.json"
   end
 end

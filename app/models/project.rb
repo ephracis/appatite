@@ -9,16 +9,26 @@ class Project < ApplicationRecord
   validates :api_url, uniqueness: true
   validates :api_url, url: true
   belongs_to :user
+  has_many :commits
+  after_commit :broadcast
 
   acts_as_followable
 
   def refresh
     return unless origin
+    update_attribute :refreshed_at, Time.current
     meta = backend.get_project(api_url)
     self.name = meta[:name]
     self.build_state = meta[:state]
     self.description = meta[:description]
     self.coverage = meta[:coverage].to_f
+    meta[:commits]&.each do |commit_hash|
+      commit = Commit.from_hash(commit_hash)
+      commit.project = self
+      commit.save!
+    end
+    save!
+    update_attribute :refreshed_at, nil
   end
 
   def create_hook(url)
@@ -34,6 +44,9 @@ class Project < ApplicationRecord
   def receive_hook(payload)
     meta = backend.receive_webhook(payload)
     update_attributes meta
+  end
+
+  def update_metadata
   end
 
   private
@@ -52,5 +65,9 @@ class Project < ApplicationRecord
 
   def backend
     account_link.backend
+  end
+
+  def broadcast
+    ProjectChannel.broadcast_to self, self
   end
 end

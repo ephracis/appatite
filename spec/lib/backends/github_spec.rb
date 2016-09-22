@@ -11,14 +11,9 @@ describe Appatite::Backends::Github, type: :lib do
     )
   end
 
-  let(:repos_response) { json_response_file 'api/github/repos.json' }
-  let(:repo_response) { json_response_file 'api/github/repo.json' }
-  let(:statuses_response) { json_response '[]' }
-  let(:hooks_response) { json_response_file 'api/github/hooks.json' }
-
   describe '#projects' do
     it 'should make get request to github api' do
-      allow(backend).to receive(:get).and_return repos_response
+      allow(backend).to receive(:get).and_return response('repos')
       expect(backend.projects.length).to eq(1)
       expect(backend.projects[0][:url]).to eq('http://web.com/123')
       expect(backend.projects[0][:api_url]).to eq('http://api.com/123')
@@ -32,9 +27,11 @@ describe Appatite::Backends::Github, type: :lib do
   describe '#get_project' do
     before do
       allow(backend).to receive(:get)
-        .with(1).and_return(repo_response)
+        .with(1).and_return(response('repo'))
       allow(backend).to receive(:get)
-        .with('repos/sample/project/statuses/HEAD').and_return(statuses_response)
+        .with('repos/sample/project/statuses/HEAD').and_return(json_response('[]'))
+      allow(backend).to receive(:get)
+        .with('repos/sample/project/commits').and_return(response('commits'))
     end
 
     it 'should parse name' do
@@ -43,6 +40,15 @@ describe Appatite::Backends::Github, type: :lib do
 
     it 'should parse description' do
       expect(backend.get_project(1)[:description]).to eq('my text')
+    end
+
+    it 'should parse commits' do
+      expected = JSON.parse(response('commits').body)
+      actual = backend.get_project(1)[:commits]
+      expect(actual.length).to eq(expected.length)
+      expect(actual[0][:sha]).to eq(expected[0]['sha'])
+      expect(actual[0][:user][:email]).to \
+        eq(expected[0]['commit']['author']['email'])
     end
 
     context "when project doesn't have builds" do
@@ -114,7 +120,7 @@ describe Appatite::Backends::Github, type: :lib do
   describe '#delete_webhook' do
     before do
       expect(backend).to receive(:get).with('project-url/hooks')
-        .and_return(hooks_response)
+        .and_return(response('hooks'))
     end
 
     context 'when webhook exists' do
@@ -145,9 +151,9 @@ describe Appatite::Backends::Github, type: :lib do
 
     before do
       allow(backend).to receive(:get)
-        .with(1).and_return(repo_response)
+        .with(1).and_return(response('repo'))
       allow(backend).to receive(:get)
-        .with('/api/v3/projects/123/builds').and_return(statuses_response)
+        .with('/api/v3/projects/123/builds').and_return(json_response('[]'))
     end
 
     it 'should parse project name' do
@@ -161,5 +167,9 @@ describe Appatite::Backends::Github, type: :lib do
     it 'should parse build state' do
       expect(backend.receive_webhook(payload)[:build_state]).to eq('running')
     end
+  end
+
+  def response(file)
+    json_response_file "api/github/#{file}.json"
   end
 end
