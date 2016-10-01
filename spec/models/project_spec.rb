@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Project, type: :model do
   let(:project) { create :project }
-  let(:gitlab_backend) do
+  let(:backend) do
     Appatite::Backends::Gitlab.new(
       'https://example.com',
       'my-gitlab-id',
@@ -13,6 +13,7 @@ describe Project, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:commits) }
   end
 
   describe 'validations' do
@@ -32,60 +33,81 @@ describe Project, type: :model do
   end
 
   describe '#refresh' do
-    let(:project_api_response) do
+    let(:backend_project) do
       {
         name: 'foo/bar',
         state: 'my-state',
         description: 'My description.',
-        coverage: '1.23'
+        coverage: '1.23',
+        commits: [
+          {
+            sha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1',
+            user: {
+              email: 'foo@mail.com',
+              name: 'Mr Foo'
+            }
+          },
+          {
+            sha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2',
+            user: {
+              email: 'bar@mail.com',
+              name: 'Mrs Bar'
+            }
+          }
+        ]
       }
     end
 
+    let(:commits_response) { json_response_file 'api/github/commits.json' }
+
     it 'should do nothing without origin' do
-      project.origin = nil
       expect(project).to_not receive(:backend)
+      project.origin = nil
       project.refresh
     end
 
     it 'should fill meta data from backend' do
-      expect(gitlab_backend).to \
-        receive(:get_project).and_return(project_api_response)
-      expect(project).to receive(:backend).and_return(gitlab_backend)
-      project.refresh
-      expect(project.name).to eq(project_api_response[:name])
+      expect(project).to receive(:backend).and_return(backend)
+      expect(backend).to \
+        receive(:get_project).and_return(backend_project)
+      expect { project.refresh }.to \
+        change { project.commits.count }.by(backend_project[:commits].count)
+      expect(project.name).to eq(backend_project[:name])
+      expect(project.commits.first.sha).to \
+        eq(backend_project[:commits][0][:sha])
     end
   end
 
   describe '#create_hook' do
     it 'should not run in development mode' do
-      allow(Rails.env).to receive('development?').and_return true
       expect(project).to_not receive(:backend)
+      allow(Rails.env).to receive('development?').and_return true
       project.create_hook 'http://example.com/hook'
     end
 
     it 'should ask backend to create hook' do
-      expect(gitlab_backend).to receive(:create_webhook).with(
+      expect(project).to receive(:backend).and_return(backend)
+      expect(backend).to receive(:create_webhook).with(
         'http://example.com',
         'http://example.com/hook'
       )
-      expect(project).to receive(:backend).and_return(gitlab_backend)
       project.create_hook 'http://example.com/hook'
     end
   end
 
   describe '#delete_hook' do
     it 'should not run in development mode' do
-      allow(Rails.env).to receive('development?').and_return true
       expect(project).to_not receive(:backend)
+      allow(Rails.env).to receive('development?').and_return true
       project.delete_hook 'http://example.com/hook'
     end
 
     it 'should ask backend to delete hook' do
-      expect(gitlab_backend).to receive(:delete_webhook).with(
+      expect(project).to receive(:backend).and_return(backend)
+      expect(backend).to receive(:delete_webhook).with(
         'http://example.com',
         'http://example.com/hook'
       )
-      expect(project).to receive(:backend).and_return(gitlab_backend)
       project.delete_hook 'http://example.com/hook'
     end
   end
@@ -101,8 +123,8 @@ describe Project, type: :model do
     end
 
     it 'updates meta data' do
-      expect(project).to receive(:backend).and_return(gitlab_backend)
-      expect(gitlab_backend).to receive(:receive_webhook).and_return(hook_data)
+      expect(project).to receive(:backend).and_return(backend)
+      expect(backend).to receive(:receive_webhook).and_return(hook_data)
       project.receive_hook nil
       expect(project.name).to eq(hook_data[:name])
       expect(project.build_state).to eq(hook_data[:build_state])

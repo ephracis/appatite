@@ -23,5 +23,8 @@ unless Rails.env.production?
   desc 'Run code style checks'
   task lint: %w(rubocop yamllint)
 
+  desc 'Run all CI tests'
+  task ci: %w(rubocop teaspoon spec)
+
   task default: [:lint, :test]
 end

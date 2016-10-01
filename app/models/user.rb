@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   has_many :account_links
   has_many :projects
+  has_many :commits
 
   validates :email, uniqueness: true
   validates :nickname, uniqueness: { case_sensitive: false }

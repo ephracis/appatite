@@ -1,51 +1,52 @@
-.text-center.hidden-fullscreen
-  %h1 Projects
-  .lead Here is an overview of your active projects
+.container{ ng: { controller: 'ProjectsCtrl' } }
+  .text-center.hidden-fullscreen
+    %h1 Projects
+    .lead Here is an overview of your active projects
 
-%table.table.table-hover
-  %thead
-    %tr
-      %th Name
-      %th Build status
-      %th.hidden-xs Code coverage
-  %tbody
-    - @projects.each do |project|
-      - uniq_id = [project.origin,project.origin_id].join '-'
-      %tr{ ng: { init: "projects['#{uniq_id}'] = { build_state: '#{project.build_state.to_s.downcase}', coverage: '#{project.coverage || 0}', name: '#{project.name}' }"}}
-        %td.table-link
-          = content_tag :span, '', class: "fa fa-fw fa-#{project.origin}"
-          %a{ href: url_for(project) }
-            {{projects['#{uniq_id}']['name']}}
-        %td
-          .label.label-success{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'success'" }}
-            Success
-          .label.label-danger{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'failed'" }}
-            Failed
-          .label.label-default{ ng: { show: "['', 'unknown'].indexOf(projects['#{uniq_id}']['build_state']) > -1" }}
-            Unknown
-          .label.label-primary{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'running'" }}
-            Running
-        %td.hidden-xs
-          .label.label-test.label-test-10{ ng: { show: "projects['#{uniq_id}']['coverage'] < 10" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-20{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 10 && projects['#{uniq_id}']['coverage'] < 20" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-30{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 20 && projects['#{uniq_id}']['coverage'] < 30" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-40{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 30 && projects['#{uniq_id}']['coverage'] < 40" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-50{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 40 && projects['#{uniq_id}']['coverage'] < 50" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-60{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 50 && projects['#{uniq_id}']['coverage'] < 60" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-70{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 60 && projects['#{uniq_id}']['coverage'] < 70" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-80{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 70 && projects['#{uniq_id}']['coverage'] < 80" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-90{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 80 && projects['#{uniq_id}']['coverage'] < 90" }}
-            {{projects['#{uniq_id}']['coverage']}}%
-          .label.label-test.label-test-100{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 90" }}
-            {{projects['#{uniq_id}']['coverage']}}%
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Name
+        %th Build status
+        %th.hidden-xs Code coverage
+    %tbody
+      - @projects.each do |project|
+        - uniq_id = [project.origin,project.origin_id].join '-'
+        %tr{ ng: { init: "projects['#{uniq_id}'] = { build_state: '#{project.build_state.to_s.downcase}', coverage: '#{project.coverage || 0}', name: '#{project.name}' }"}}
+          %td.table-link
+            = content_tag :span, '', class: "fa fa-fw fa-#{project.origin}"
+            %a{ href: url_for(project) }
+              {{projects['#{uniq_id}']['name']}}
+          %td
+            .label.label-success{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'success'" }}
+              Success
+            .label.label-danger{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'failed'" }}
+              Failed
+            .label.label-default{ ng: { show: "['', 'unknown'].indexOf(projects['#{uniq_id}']['build_state']) > -1" }}
+              Unknown
+            .label.label-primary{ ng: { show: "projects['#{uniq_id}']['build_state'] == 'running'" }}
+              Running
+          %td.hidden-xs
+            .label.label-test.label-test-10{ ng: { show: "projects['#{uniq_id}']['coverage'] < 10" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-20{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 10 && projects['#{uniq_id}']['coverage'] < 20" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-30{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 20 && projects['#{uniq_id}']['coverage'] < 30" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-40{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 30 && projects['#{uniq_id}']['coverage'] < 40" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-50{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 40 && projects['#{uniq_id}']['coverage'] < 50" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-60{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 50 && projects['#{uniq_id}']['coverage'] < 60" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-70{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 60 && projects['#{uniq_id}']['coverage'] < 70" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-80{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 70 && projects['#{uniq_id}']['coverage'] < 80" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-90{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 80 && projects['#{uniq_id}']['coverage'] < 90" }}
+              {{projects['#{uniq_id}']['coverage']}}%
+            .label.label-test.label-test-100{ ng: { show: "projects['#{uniq_id}']['coverage'] >= 90" }}
+              {{projects['#{uniq_id}']['coverage']}}%
 
-.text-center.hidden-fullscreen
-  = link_to 'Setup Projects', setup_projects_path, class: 'btn btn-default'
+  .text-center.hidden-fullscreen
+    = link_to 'Setup Projects', setup_projects_path, class: 'btn btn-default'

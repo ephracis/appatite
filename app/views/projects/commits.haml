@@ -1,0 +1,13 @@
+.text-center
+  %h3 Commits
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Message
+        %th Author
+    %tbody
+      - @project.commits.each do |commit|
+        %tr
+          %td= commit.title
+          %td= commit.user.email
+  

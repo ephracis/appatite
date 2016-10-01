@@ -152,7 +152,7 @@ describe ProjectsController do
 
     describe 'POST create' do
       it 'should create new project' do
-        expect_any_instance_of(Project).to receive(:refresh)
+        ActiveJob::Base.queue_adapter = :test
         expect_any_instance_of(Project).to receive(:create_hook)
         expect do
           post :create, params: {
@@ -166,11 +166,12 @@ describe ProjectsController do
         end.to change { Project.count }
         expect(response.status).to eq(302)
         expect(Project.last.name).to eq('test/project')
+        expect(RefreshProjectJob).to have_been_enqueued
       end
 
       it 'should activate existing' do
         project = create :project, api_url: 'http://api.io/123'
-        expect_any_instance_of(Project).to receive(:refresh)
+        ActiveJob::Base.queue_adapter = :test
         expect_any_instance_of(Project).to receive(:create_hook)
         expect do
           post :create, params: {
@@ -184,6 +185,7 @@ describe ProjectsController do
         end.to_not change { Project.count }
         expect(response.status).to eq(302)
         expect(project.name).to eq('test/project')
+        expect(RefreshProjectJob).to have_been_enqueued
       end
     end
 

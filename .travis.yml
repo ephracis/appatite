@@ -10,9 +10,9 @@ cache:
   directories:
   - $HOME/.phantomjs
 script:
+- bin/rails spec
 - bin/rails rubocop
 - bin/rails teaspoon
-- bin/rails spec
 deploy:
   provider: heroku
   api_key:

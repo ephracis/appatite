@@ -1,5 +1,6 @@
 class ProjectChannel < ApplicationCable::Channel
   def subscribed
-    stream_for current_user
+    project = Project.find params[:id]
+    stream_for project
   end
 end

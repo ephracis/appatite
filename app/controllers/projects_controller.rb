@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: :webhook
-  before_action :set_project, only: [:edit, :update]
+  before_action :set_project, only: [:edit, :update, :issues, :commits, :contributors]
   skip_before_action :verify_authenticity_token, only: :webhook
+  layout 'application', only: [:index, :setup]
 
   # GET /projects
   # GET /projects.json
@@ -40,7 +41,6 @@ class ProjectsController < ApplicationController
     project = Project.find_by(api_url: api_url)
     project&.receive_hook(params)
     if project&.save
-      ProjectChannel.broadcast_to project.user, project
       head :ok
     else
       format.json { render json: project.errors, status: :unprocessable_entity }
@@ -65,11 +65,11 @@ class ProjectsController < ApplicationController
       p.assign_attributes(project_params)
       p.user = current_user
     end
-    @project.refresh
     @project.active = true
 
     respond_to do |format|
       if @project.save
+        RefreshProjectJob.perform_later @project
         current_user.follow @project
         @project.create_hook(webhook_projects_url) # TODO: send notification on error
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
@@ -92,7 +92,6 @@ class ProjectsController < ApplicationController
         elsif old_state != @project.active
           @project.delete_hook(webhook_projects_url)
         end
-        ProjectChannel.broadcast_to @project.user, @project
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else

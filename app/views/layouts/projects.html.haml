@@ -1,5 +1,27 @@
 - content_for :content do
-  .container{ ng: { controller: 'ProjectsCtrl' } }
+  .container{ ng: { controller: 'ProjectCtrl', init: "load(#{@project.id})" } }
+
+    .text-center.cover-block
+      .cover-image
+        %div{ ng: { hide: 'isRefreshing()' } }
+          = content_tag :span, '', class: "fa fa-5x fa-#{@project.origin}"
+        %div{ ng: { show: 'isRefreshing()' } }
+          = content_tag :span, '', class: "fa fa-5x fa-spinner fa-pulse"
+      %h2.cover-title{ ng: { bind: "project['name']" } }
+      .cover-desc{ ng: { bind: "project['description']" } }
+
+    %ul.nav.nav-pills.text-center
+      = nav_link action: :show do
+        = link_to 'Overview', project_path(@project)
+      = nav_link action: :commits do
+        = link_to 'Commits', commits_project_path(@project)
+      = nav_link action: :issues do
+        = link_to 'Issues', issues_project_path(@project)
+      = nav_link action: :contributors do
+        = link_to 'Contributors', contributors_project_path(@project)
+      = nav_link action: :edit do
+        = link_to 'Settings', edit_project_path(@project)
+
     = yield
 
 = render template: 'layouts/application'
