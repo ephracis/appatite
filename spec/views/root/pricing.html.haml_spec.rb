@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'static/pricing' do
+describe 'root/pricing' do
   before do
     render
   end

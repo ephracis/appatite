@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   end
 
   # root
-  get '/pricing', to: 'static#pricing'
-  get '/crash', to: 'static#crash'
-  root to: 'static#index'
+  get '/pricing', to: 'root#pricing'
+  get '/crash', to: 'root#crash'
+  root to: 'root#index'
 end
