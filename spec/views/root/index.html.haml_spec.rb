@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'static/index' do
+describe 'root/index' do
   before do
     render
   end

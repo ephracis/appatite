@@ -1,6 +1,6 @@
 require 'rails_helper.rb'
 
-describe StaticController do
+describe RootController do
   describe 'GET index' do
     it 'should render front page' do
       get :index
