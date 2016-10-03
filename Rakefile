@@ -3,6 +3,11 @@
 require_relative 'config/application'
 Rails.application.load_tasks
 
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['app/**/*.rb', 'lib/**/*.rb']
+  t.options = ['--output-dir', 'doc/api']
+end
+
 unless Rails.env.production?
   require 'rubocop/rake_task'
   require 'haml_lint/rake_task'

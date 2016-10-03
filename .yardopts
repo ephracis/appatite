@@ -1,0 +1,4 @@
+--readme doc/API.md
+--title 'Appatite API Documentation'
+'app/**/*.rb'
+'lib/**/*.rb'
